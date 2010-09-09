@@ -1,0 +1,8 @@
+Slice Hack
+-A small action RPG with limited resources.
+
+These are two computer networking projects, which are essentially the same.
+One in C++, the other one in Java.
+
+Once finished, the C++ client will be able to connect to the Java server
+and vice versa.
