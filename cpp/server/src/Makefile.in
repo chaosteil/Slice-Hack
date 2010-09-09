@@ -32,7 +32,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = sh$(EXEEXT)
+bin_PROGRAMS = slicehack$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -46,12 +46,13 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_sh_OBJECTS = main.$(OBJEXT) logic/game.$(OBJEXT) \
-	logic/events/event.$(OBJEXT) logic/game_map/position.$(OBJEXT) \
+am_slicehack_OBJECTS = main.$(OBJEXT) logic/game.$(OBJEXT) \
+	logic/events/event.$(OBJEXT) logic/game_map/gamemap.$(OBJEXT) \
+	logic/game_map/position.$(OBJEXT) \
 	logic/game_map/entities/entity.$(OBJEXT) \
 	logic/game_map/entities/health.$(OBJEXT)
-sh_OBJECTS = $(am_sh_OBJECTS)
-sh_DEPENDENCIES =
+slicehack_OBJECTS = $(am_slicehack_OBJECTS)
+slicehack_DEPENDENCIES =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -61,8 +62,8 @@ CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
-SOURCES = $(sh_SOURCES)
-DIST_SOURCES = $(sh_SOURCES)
+SOURCES = $(slicehack_SOURCES)
+DIST_SOURCES = $(slicehack_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -151,13 +152,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = subdir-objects
 AM_CPPFLAGS = $(DEPS_CFLAGS)
-sh_LDADD = $(DEPS_LIBS)
-sh_SOURCES = \
+slicehack_LDADD = $(DEPS_LIBS)
+slicehack_SOURCES = \
   main.cpp \
 	logic/game.cpp \
 	\
 	logic/events/event.cpp \
 	\
+	logic/game_map/gamemap.cpp \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
@@ -256,6 +258,8 @@ logic/game_map/$(am__dirstamp):
 logic/game_map/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) logic/game_map/$(DEPDIR)
 	@: > logic/game_map/$(DEPDIR)/$(am__dirstamp)
+logic/game_map/gamemap.$(OBJEXT): logic/game_map/$(am__dirstamp) \
+	logic/game_map/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/position.$(OBJEXT): logic/game_map/$(am__dirstamp) \
 	logic/game_map/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/entities/$(am__dirstamp):
@@ -270,9 +274,9 @@ logic/game_map/entities/entity.$(OBJEXT):  \
 logic/game_map/entities/health.$(OBJEXT):  \
 	logic/game_map/entities/$(am__dirstamp) \
 	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
-sh$(EXEEXT): $(sh_OBJECTS) $(sh_DEPENDENCIES) 
-	@rm -f sh$(EXEEXT)
-	$(CXXLINK) $(sh_OBJECTS) $(sh_LDADD) $(LIBS)
+slicehack$(EXEEXT): $(slicehack_OBJECTS) $(slicehack_DEPENDENCIES) 
+	@rm -f slicehack$(EXEEXT)
+	$(CXXLINK) $(slicehack_OBJECTS) $(slicehack_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -280,6 +284,7 @@ mostlyclean-compile:
 	-rm -f logic/game.$(OBJEXT)
 	-rm -f logic/game_map/entities/entity.$(OBJEXT)
 	-rm -f logic/game_map/entities/health.$(OBJEXT)
+	-rm -f logic/game_map/gamemap.$(OBJEXT)
 	-rm -f logic/game_map/position.$(OBJEXT)
 
 distclean-compile:
@@ -288,6 +293,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/game.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/event.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/entity.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/health.Po@am__quote@

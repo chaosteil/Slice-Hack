@@ -1,14 +1,15 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
-bin_PROGRAMS = sh
+bin_PROGRAMS = slicehack
 AM_CPPFLAGS = $(DEPS_CFLAGS)
-sh_LDADD = $(DEPS_LIBS)
-sh_SOURCES = \
+slicehack_LDADD = $(DEPS_LIBS)
+slicehack_SOURCES = \
   main.cpp \
 	logic/game.cpp \
 	\
 	logic/events/event.cpp \
 	\
+	logic/game_map/gamemap.cpp \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
