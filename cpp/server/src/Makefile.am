@@ -10,6 +10,7 @@ slicehack_SOURCES = \
 	logic/events/event.cpp \
 	\
 	logic/game_map/gamemap.cpp \
+	logic/game_map/gamemapsection.cpp \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \

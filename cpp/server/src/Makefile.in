@@ -48,6 +48,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_slicehack_OBJECTS = main.$(OBJEXT) logic/game.$(OBJEXT) \
 	logic/events/event.$(OBJEXT) logic/game_map/gamemap.$(OBJEXT) \
+	logic/game_map/gamemapsection.$(OBJEXT) \
 	logic/game_map/position.$(OBJEXT) \
 	logic/game_map/entities/entity.$(OBJEXT) \
 	logic/game_map/entities/health.$(OBJEXT)
@@ -160,6 +161,7 @@ slicehack_SOURCES = \
 	logic/events/event.cpp \
 	\
 	logic/game_map/gamemap.cpp \
+	logic/game_map/gamemapsection.cpp \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
@@ -260,6 +262,9 @@ logic/game_map/$(DEPDIR)/$(am__dirstamp):
 	@: > logic/game_map/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/gamemap.$(OBJEXT): logic/game_map/$(am__dirstamp) \
 	logic/game_map/$(DEPDIR)/$(am__dirstamp)
+logic/game_map/gamemapsection.$(OBJEXT):  \
+	logic/game_map/$(am__dirstamp) \
+	logic/game_map/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/position.$(OBJEXT): logic/game_map/$(am__dirstamp) \
 	logic/game_map/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/entities/$(am__dirstamp):
@@ -285,6 +290,7 @@ mostlyclean-compile:
 	-rm -f logic/game_map/entities/entity.$(OBJEXT)
 	-rm -f logic/game_map/entities/health.$(OBJEXT)
 	-rm -f logic/game_map/gamemap.$(OBJEXT)
+	-rm -f logic/game_map/gamemapsection.$(OBJEXT)
 	-rm -f logic/game_map/position.$(OBJEXT)
 
 distclean-compile:
@@ -294,6 +300,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/game.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/event.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemapsection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/entity.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/health.Po@am__quote@

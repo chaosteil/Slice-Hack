@@ -6,8 +6,11 @@ namespace game_map {
 
 class Position {
  public:
-  Position(int x, int y);
+  Position(int x = -1, int y = -1);
+  Position(const Position &position);
   ~Position();
+
+  bool operator<(const Position &position) const;
 
   int x() const;
   int y() const;

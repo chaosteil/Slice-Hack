@@ -10,21 +10,27 @@ namespace game_map {
 
 namespace entities {
 class Entity;
-}  // namespace entitites
+}  // namespace entities
+
+class GameMapSection;
 
 class GameMap {
  public:
-  enum ManagedEntity {
-    kManagedEntity = 0,
-    kUnmanagedEntity = 1
-  };
+  GameMap(int width, int height, int section_width, int section_height);
+  virtual ~GameMap();
 
-  GameMap();
-  ~GameMap();
+  int width() const;
+  int height() const;
+
+  GameMapSection *GetSectionFromPosition(const Position &position);
+  GameMapSection *GetSectionFromEntity(entities::Entity *entity);
 
  private:
-  std::map<Position, entities::Entity *> entities_;
-  std::map<entities::Entity *, ManagedEntity> managed_entities_;
+  const int width_, height_;
+  const int section_width_, section_height_;
+
+  std::map<Position, GameMapSection*> sections_;
+  std::map<entities::Entity *, GameMapSection*> entities_;
 };
 
 }  // namespace game_map

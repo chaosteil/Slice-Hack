@@ -5,7 +5,14 @@ namespace game_map {
 
 Position::Position(int x, int y) : x_(x), y_(y) {}
 
+Position::Position(const Position &position)
+    : x_(position.x_), y_(position.y_) {}
+
 Position::~Position() {}
+
+bool Position::operator<(const Position &position) const {
+  return x_ < position.x_ || y_ < position.y_;
+}
 
 int Position::x() const {
   return x_;
