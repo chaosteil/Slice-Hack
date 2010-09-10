@@ -1,5 +1,7 @@
 #include "logic/game_map/gamemapsection.h"
 
+#include <iostream>
+
 namespace slice_hack {
 namespace game_map {
 
@@ -10,9 +12,9 @@ GameMapSection::GameMapSection(const Position &position,
 
   for (int i = 0; i < width_ * height_; i++) {
     if (i < width_ || i % width_ == 0) {
-      terrain_[i] = 1;
+      terrain_[i] = 'X';
     } else {
-      terrain_[i] = 0;
+      terrain_[i] = ',';
     }
   }
 }

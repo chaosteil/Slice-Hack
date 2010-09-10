@@ -14,4 +14,5 @@ slicehack_SOURCES = \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
+	logic/game_map/entities/entitymanager.cpp \
 	logic/game_map/entities/health.cpp

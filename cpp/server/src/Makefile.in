@@ -51,6 +51,7 @@ am_slicehack_OBJECTS = main.$(OBJEXT) logic/game.$(OBJEXT) \
 	logic/game_map/gamemapsection.$(OBJEXT) \
 	logic/game_map/position.$(OBJEXT) \
 	logic/game_map/entities/entity.$(OBJEXT) \
+	logic/game_map/entities/entitymanager.$(OBJEXT) \
 	logic/game_map/entities/health.$(OBJEXT)
 slicehack_OBJECTS = $(am_slicehack_OBJECTS)
 slicehack_DEPENDENCIES =
@@ -165,6 +166,7 @@ slicehack_SOURCES = \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
+	logic/game_map/entities/entitymanager.cpp \
 	logic/game_map/entities/health.cpp
 
 all: all-am
@@ -276,6 +278,9 @@ logic/game_map/entities/$(DEPDIR)/$(am__dirstamp):
 logic/game_map/entities/entity.$(OBJEXT):  \
 	logic/game_map/entities/$(am__dirstamp) \
 	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
+logic/game_map/entities/entitymanager.$(OBJEXT):  \
+	logic/game_map/entities/$(am__dirstamp) \
+	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/entities/health.$(OBJEXT):  \
 	logic/game_map/entities/$(am__dirstamp) \
 	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
@@ -288,6 +293,7 @@ mostlyclean-compile:
 	-rm -f logic/events/event.$(OBJEXT)
 	-rm -f logic/game.$(OBJEXT)
 	-rm -f logic/game_map/entities/entity.$(OBJEXT)
+	-rm -f logic/game_map/entities/entitymanager.$(OBJEXT)
 	-rm -f logic/game_map/entities/health.$(OBJEXT)
 	-rm -f logic/game_map/gamemap.$(OBJEXT)
 	-rm -f logic/game_map/gamemapsection.$(OBJEXT)
@@ -303,6 +309,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemapsection.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/position.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/entity.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/entitymanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/health.Po@am__quote@
 
 .cpp.o:
