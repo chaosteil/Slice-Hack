@@ -2,6 +2,7 @@
 
 #include <boost/foreach.hpp>
 #include "logic/game_map/entities/entity.h"
+#include "logic/game_map/entities/entitymanager.h"
 #include "logic/game_map/gamemapsection.h"
 
 namespace slice_hack {
@@ -9,21 +10,30 @@ namespace game_map {
 
 GameMap::GameMap(int width, int height, int section_width, int section_height)
     : width_(width), height_(height),
-      section_width_(section_width), section_height_(section_height) {
+      section_width_(section_width), section_height_(section_height),
+      entity_manager_(new entities::EntityManager()) {
 
   // Initialize all sections
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       Position pos(x, y);
       sections_[pos] =
-        new GameMapSection(pos, section_width_, section_height_);
+        new GameMapSection(pos, section_width_, section_height_,
+                           entity_manager_);
     }
   }
 
   // TODO(Chaosteil): Randomize terrain for sections.
 }
 
-GameMap::~GameMap() {}
+GameMap::~GameMap() {
+  typedef std::pair<Position, GameMapSection *> pos_section_t;
+  BOOST_FOREACH (pos_section_t pos_section, sections_) {
+    delete pos_section.second;
+  }
+
+  delete entity_manager_;
+}
 
 int GameMap::width() const {
   return width_;

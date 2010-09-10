@@ -10,6 +10,7 @@ class Position {
   Position(const Position &position);
   ~Position();
 
+  bool operator==(const Position &position) const;
   bool operator<(const Position &position) const;
 
   int x() const;

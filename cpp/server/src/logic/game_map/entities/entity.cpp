@@ -13,9 +13,11 @@ const std::string &Entity::name() const {
   return name_;
 }
 
-Health &Entity::health() {
+const Health &Entity::health() {
   return health_;
 }
+
+void Entity::Run() {}
 
 }  // namespace entities
 }  // namespace game_map

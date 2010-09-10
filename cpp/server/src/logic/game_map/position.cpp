@@ -10,6 +10,10 @@ Position::Position(const Position &position)
 
 Position::~Position() {}
 
+bool Position::operator==(const Position &position) const {
+  return x_ == position.x_ && y_ == position.y_;
+}
+
 bool Position::operator<(const Position &position) const {
   return x_ < position.x_ || y_ < position.y_;
 }

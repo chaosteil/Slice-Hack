@@ -10,6 +10,7 @@ namespace game_map {
 
 namespace entities {
 class Entity;
+class EntityManager;
 }  // namespace entities
 
 class GameMapSection;
@@ -28,6 +29,7 @@ class GameMap {
  private:
   const int width_, height_;
   const int section_width_, section_height_;
+  entities::EntityManager *entity_manager_;
 
   std::map<Position, GameMapSection*> sections_;
   std::map<entities::Entity *, GameMapSection*> entities_;

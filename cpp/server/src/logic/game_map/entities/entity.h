@@ -14,9 +14,9 @@ class Entity {
   virtual ~Entity();
 
   const std::string &name() const;
-  Health &health() ;
+  const Health &health() ;
 
-  void set_health(const Health &health) ;
+  virtual void Run();
 
  private:
   const std::string name_;
