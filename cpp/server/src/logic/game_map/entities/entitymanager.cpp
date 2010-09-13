@@ -20,7 +20,7 @@ Entity *EntityManager::SpawnEntity(/* some values */) {
   return entity;
 }
 
-Entity *EntityManager::GetEntity(boost::uuids::uuid id) {
+Entity *EntityManager::GetEntity(const boost::uuids::uuid &id) {
   return entities_[id];
 }
 

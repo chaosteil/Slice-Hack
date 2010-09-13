@@ -18,7 +18,7 @@ class EntityManager {
   virtual ~EntityManager();
 
   Entity *SpawnEntity(/* some values */);
-  Entity *GetEntity(boost::uuids::uuid id);
+  Entity *GetEntity(const boost::uuids::uuid &id);
   void RemoveEntity(Entity *entity);
  
  private:
