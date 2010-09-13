@@ -4,6 +4,7 @@
 #include <queue>
 
 #include "logic/events/eventvisitorinterface.h"
+#include "logic/eventloop.h"
 
 namespace slice_hack {
 
@@ -15,13 +16,14 @@ namespace events {
 class Event;
 }  // namespace events
 
-class Game : public events::EventVisitorInterface {
+class Game : public events::EventVisitorInterface,
+             public EventTickInterface {
  public:
   Game();
   virtual ~Game();
 
-  void AddEvent(events::Event *event);
-  void Run();
+  virtual void AddEvent(events::Event *event);
+  virtual void Run();
  
  private:
   std::queue<events::Event*> events_;

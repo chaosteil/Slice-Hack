@@ -12,7 +12,7 @@ class EventTickInterface {
 
   virtual void Run() = 0;
 
- private:
+ protected:
   EventTickInterface() {}
 };
 

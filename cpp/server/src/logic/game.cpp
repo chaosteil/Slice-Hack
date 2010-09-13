@@ -8,6 +8,7 @@ namespace slice_hack {
 
 Game::Game()
     : events::EventVisitorInterface(),
+      EventTickInterface(),
       map_(new game_map::GameMap(10, 10, 20, 20)) {}
 
 Game::~Game() {
