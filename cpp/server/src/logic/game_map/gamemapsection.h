@@ -35,8 +35,9 @@ class GameMapSection : public EventTickInterface,
     const Position &position);
 
   virtual void Run();
-  virtual void SetEntityPosition(entities::Entity *entity,
-                                 const Position &position);
+  virtual entities::EntityPositionManagerInterface *SetEntityPosition(
+    entities::Entity *entity,
+    const Position &position);
   virtual void RemoveEntity(entities::Entity *entity);
 
  private:

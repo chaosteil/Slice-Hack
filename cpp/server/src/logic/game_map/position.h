@@ -11,6 +11,7 @@ class Position {
   ~Position();
 
   bool operator==(const Position &position) const;
+  bool operator!=(const Position &position) const;
   bool operator<(const Position &position) const;
 
   int x() const;

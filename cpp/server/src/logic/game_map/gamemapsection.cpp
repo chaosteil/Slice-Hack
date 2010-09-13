@@ -80,15 +80,37 @@ void GameMapSection::Run() {
   }
 }
 
-void GameMapSection::SetEntityPosition(entities::Entity *entity,
-                                       const Position &position) {
+entities::EntityPositionManagerInterface *GameMapSection::SetEntityPosition(
+    entities::Entity *entity,
+    const Position &position) {
   // Notify the original pos manager that there is an entity right here
   if (entity_pos_manager_) {
     entity_pos_manager_->SetEntityPosition(entity, position_);
   }
 
+  Position new_section_pos(position_); 
+
+  // TODO(Chaosteil): Make section swap transparent with this
+  if (position.x() < 0) {
+  } else if (position.x() >= width_) {
+  }
+
+  if (position.y() < 0) {
+  } else if (position.y() >= height_) {
+  }
+
+  if (position_ != new_section_pos) {
+    entities::EntityPositionManagerInterface *epm =
+      entity_pos_manager_->SetEntityPosition(entity, new_section_pos);
+
+    // TODO(Chaosteil): Find new real position
+    return epm->SetEntityPosition(entity, new_section_pos);
+  }
+
   entities_[entity] = position;
   entity->set_entity_position_manager(this);
+
+  return this;
 }
 
 void GameMapSection::RemoveEntity(entities::Entity *entity) {

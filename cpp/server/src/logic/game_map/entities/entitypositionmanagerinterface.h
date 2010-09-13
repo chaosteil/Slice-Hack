@@ -13,7 +13,8 @@ class EntityPositionManagerInterface {
  public:
   virtual ~EntityPositionManagerInterface() {}
   
-  virtual void SetEntityPosition(Entity *entity, const Position &position) = 0;
+  virtual EntityPositionManagerInterface *SetEntityPosition(Entity *entity,
+    const Position &position) = 0;
   virtual void RemoveEntity(Entity *entity) = 0;
 
  protected:

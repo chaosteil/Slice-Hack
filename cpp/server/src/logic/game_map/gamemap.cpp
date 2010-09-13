@@ -65,12 +65,15 @@ void GameMap::Run() {
   }
 }
 
-void GameMap::SetEntityPosition(entities::Entity *entity,
-                                const Position &position) {
+entities::EntityPositionManagerInterface *GameMap::SetEntityPosition(
+    entities::Entity *entity,
+    const Position &position) {
   GameMapSection *section = GetSectionFromPosition(position);
 
   entities_[entity] = section;
   entity->set_entity_position_manager(this);
+
+  return section;
 }
 
 void GameMap::RemoveEntity(entities::Entity *entity) {
