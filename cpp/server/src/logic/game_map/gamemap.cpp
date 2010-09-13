@@ -51,5 +51,12 @@ GameMapSection *GameMap::GetSectionFromEntity(entities::Entity *entity) {
   return entities_[entity];
 }
 
+void GameMap::Run() {
+  typedef std::pair<Position, GameMapSection *> pos_section_t;
+  BOOST_FOREACH (pos_section_t pos_section, sections_) {
+    pos_section.second->Run();
+  }
+}
+
 }  // namespace game_map
 }  // namespace slice_hack

@@ -3,13 +3,14 @@
 
 #include <string>
 #include <boost/uuid/uuid.hpp>
+#include "logic/eventloop.h"
 #include "logic/game_map/entities/health.h"
 
 namespace slice_hack {
 namespace game_map {
 namespace entities {
 
-class Entity {
+class Entity : public EventTickInterface {
  public:
   Entity(const boost::uuids::uuid &id, const std::string &name,
          const Health &health);

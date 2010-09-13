@@ -1,6 +1,7 @@
 #include "logic/game.h"
 
 #include <iostream>
+#include <boost/foreach.hpp>
 #include "logic/game_map/gamemap.h"
 #include "logic/events/event.h"
 
@@ -23,6 +24,8 @@ void Game::Run() {
   // TODO(Chaosteil):
   // 1. Drain event queue
   // 2. Run NPC logic
+
+  map_->Run();
 }
 
 }  // namespace slice_hack

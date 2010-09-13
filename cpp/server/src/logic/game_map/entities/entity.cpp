@@ -6,7 +6,8 @@ namespace entities {
 
 Entity::Entity(const boost::uuids::uuid &id, const std::string &name,
                const Health &health)
-    : id_(id), name_(name), health_(health) {}
+    : EventTickInterface(),
+      id_(id), name_(name), health_(health) {}
 
 Entity::~Entity() {}
 

@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 
+#include "logic/eventloop.h"
 #include "logic/game_map/position.h"
 
 namespace slice_hack {
@@ -14,7 +15,7 @@ class Entity;
 class EntityManager;
 }  // namespace entitites
 
-class GameMapSection {
+class GameMapSection : public EventTickInterface {
  public:
   GameMapSection(const Position &position, int width, int height,
                  entities::EntityManager *entity_manager);
@@ -29,6 +30,8 @@ class GameMapSection {
   Position GetEntityPosition(entities::Entity *entity);
   std::vector<entities::Entity *> GetEntitiesOnPosition(
     const Position &position);
+
+  virtual void Run();
 
  private:
   const Position position_;

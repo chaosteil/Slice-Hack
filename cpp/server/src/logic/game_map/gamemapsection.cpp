@@ -3,6 +3,7 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 #include "logic/game_map/entities/entitymanager.h"
+#include "logic/game_map/entities/entity.h"
 
 namespace slice_hack {
 namespace game_map {
@@ -10,7 +11,8 @@ namespace game_map {
 GameMapSection::GameMapSection(const Position &position,
                                int width, int height,
                                entities::EntityManager *entity_manager)
-    : position_(position), width_(width), height_(height),
+    : EventTickInterface(),
+      position_(position), width_(width), height_(height),
       entity_manager_(entity_manager),
       terrain_(new char[width_ * height_]) {
 
@@ -66,6 +68,13 @@ std::vector<entities::Entity *> GameMapSection::GetEntitiesOnPosition(
   }
 
   return entities;
+}
+
+void GameMapSection::Run() {
+  typedef std::pair<entities::Entity *, Position> entity_pos_t;
+  BOOST_FOREACH (entity_pos_t entity_pos, entities_) {
+    entity_pos.first->Run();
+  }
 }
 
 }  // namespace game_map
