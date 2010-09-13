@@ -6,6 +6,7 @@ slicehack_LDADD = $(DEPS_LIBS)
 slicehack_SOURCES = \
   main.cpp \
 	logic/game.cpp \
+	logic/eventloop.cpp \
 	\
 	logic/events/event.cpp \
 	\
@@ -14,5 +15,6 @@ slicehack_SOURCES = \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
+	logic/game_map/entities/monster.cpp \
 	logic/game_map/entities/entitymanager.cpp \
 	logic/game_map/entities/health.cpp

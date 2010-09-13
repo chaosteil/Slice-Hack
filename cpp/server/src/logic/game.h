@@ -3,10 +3,17 @@
 
 #include <queue>
 
-#include "logic/events/event.h"
 #include "logic/events/eventvisitorinterface.h"
 
 namespace slice_hack {
+
+namespace game_map {
+class GameMap;
+}  // namespace game_map
+
+namespace events {
+class Event;
+}  // namespace events
 
 class Game : public events::EventVisitorInterface {
  public:
@@ -18,6 +25,7 @@ class Game : public events::EventVisitorInterface {
  
  private:
   std::queue<events::Event*> events_;
+  game_map::GameMap *map_;
 };
 
 }  // namespace slice_hack

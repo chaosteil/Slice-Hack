@@ -5,7 +5,7 @@ AC_INIT([Slice Hack], [0.1], [])
 AC_PREREQ([2.65])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([1.10 no-define foreign])
-# PKG_CHECK_MODULES([DEPS])
+PKG_CHECK_MODULES([DEPS], [libevent])
 
 # Checks for programs.
 AC_PROG_CXX

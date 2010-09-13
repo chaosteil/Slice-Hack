@@ -9,8 +9,11 @@ namespace entities {
 
 class Monster : public Entity {
  public:
-  Monster(const std::string &name, const Health &health /* loot_table */);
+  Monster(const boost::uuids::uuid &id, const std::string &name,
+          const Health &health);
   virtual ~Monster();
+
+  virtual void Run();
 };
 
 }  // namespace entities

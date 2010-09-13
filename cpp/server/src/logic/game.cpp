@@ -1,9 +1,18 @@
 #include "logic/game.h"
 
+#include <iostream>
+#include "logic/game_map/gamemap.h"
+#include "logic/events/event.h"
+
 namespace slice_hack {
 
-Game::Game() : events::EventVisitorInterface() {}
-Game::~Game() {}
+Game::Game()
+    : events::EventVisitorInterface(),
+      map_(new game_map::GameMap(10, 10, 20, 20)) {}
+
+Game::~Game() {
+  delete map_;
+}
 
 void Game::AddEvent(events::Event *event) {
   events_.push(event);

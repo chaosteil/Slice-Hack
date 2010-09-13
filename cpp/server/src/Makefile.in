@@ -47,14 +47,17 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_slicehack_OBJECTS = main.$(OBJEXT) logic/game.$(OBJEXT) \
-	logic/events/event.$(OBJEXT) logic/game_map/gamemap.$(OBJEXT) \
+	logic/eventloop.$(OBJEXT) logic/events/event.$(OBJEXT) \
+	logic/game_map/gamemap.$(OBJEXT) \
 	logic/game_map/gamemapsection.$(OBJEXT) \
 	logic/game_map/position.$(OBJEXT) \
 	logic/game_map/entities/entity.$(OBJEXT) \
+	logic/game_map/entities/monster.$(OBJEXT) \
 	logic/game_map/entities/entitymanager.$(OBJEXT) \
 	logic/game_map/entities/health.$(OBJEXT)
 slicehack_OBJECTS = $(am_slicehack_OBJECTS)
-slicehack_DEPENDENCIES =
+am__DEPENDENCIES_1 =
+slicehack_DEPENDENCIES = $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -82,6 +85,8 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DEPS_CFLAGS = @DEPS_CFLAGS@
+DEPS_LIBS = @DEPS_LIBS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -106,6 +111,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -158,6 +164,7 @@ slicehack_LDADD = $(DEPS_LIBS)
 slicehack_SOURCES = \
   main.cpp \
 	logic/game.cpp \
+	logic/eventloop.cpp \
 	\
 	logic/events/event.cpp \
 	\
@@ -166,6 +173,7 @@ slicehack_SOURCES = \
 	logic/game_map/position.cpp \
 	\
 	logic/game_map/entities/entity.cpp \
+	logic/game_map/entities/monster.cpp \
 	logic/game_map/entities/entitymanager.cpp \
 	logic/game_map/entities/health.cpp
 
@@ -248,6 +256,8 @@ logic/$(DEPDIR)/$(am__dirstamp):
 	@: > logic/$(DEPDIR)/$(am__dirstamp)
 logic/game.$(OBJEXT): logic/$(am__dirstamp) \
 	logic/$(DEPDIR)/$(am__dirstamp)
+logic/eventloop.$(OBJEXT): logic/$(am__dirstamp) \
+	logic/$(DEPDIR)/$(am__dirstamp)
 logic/events/$(am__dirstamp):
 	@$(MKDIR_P) logic/events
 	@: > logic/events/$(am__dirstamp)
@@ -278,6 +288,9 @@ logic/game_map/entities/$(DEPDIR)/$(am__dirstamp):
 logic/game_map/entities/entity.$(OBJEXT):  \
 	logic/game_map/entities/$(am__dirstamp) \
 	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
+logic/game_map/entities/monster.$(OBJEXT):  \
+	logic/game_map/entities/$(am__dirstamp) \
+	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/entities/entitymanager.$(OBJEXT):  \
 	logic/game_map/entities/$(am__dirstamp) \
 	logic/game_map/entities/$(DEPDIR)/$(am__dirstamp)
@@ -290,11 +303,13 @@ slicehack$(EXEEXT): $(slicehack_OBJECTS) $(slicehack_DEPENDENCIES)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f logic/eventloop.$(OBJEXT)
 	-rm -f logic/events/event.$(OBJEXT)
 	-rm -f logic/game.$(OBJEXT)
 	-rm -f logic/game_map/entities/entity.$(OBJEXT)
 	-rm -f logic/game_map/entities/entitymanager.$(OBJEXT)
 	-rm -f logic/game_map/entities/health.$(OBJEXT)
+	-rm -f logic/game_map/entities/monster.$(OBJEXT)
 	-rm -f logic/game_map/gamemap.$(OBJEXT)
 	-rm -f logic/game_map/gamemapsection.$(OBJEXT)
 	-rm -f logic/game_map/position.$(OBJEXT)
@@ -303,6 +318,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/eventloop.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/game.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/event.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemap.Po@am__quote@
@@ -311,6 +327,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/entity.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/entitymanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/health.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/monster.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

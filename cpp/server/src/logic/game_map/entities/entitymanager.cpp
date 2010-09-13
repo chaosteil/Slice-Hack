@@ -1,6 +1,7 @@
 #include "logic/game_map/entities/entitymanager.h"
 
 #include "logic/game_map/entities/entity.h"
+#include "logic/game_map/entities/monster.h"
 
 namespace slice_hack {
 namespace game_map {
@@ -13,7 +14,7 @@ EntityManager::~EntityManager() {}
 Entity *EntityManager::SpawnEntity(/* some values */) {
   boost::uuids::uuid id = generator_();
 
-  Entity *entity = new Entity(id, "Test", Health(10));
+  Entity *entity = new Monster(id, "Test", Health(10));
 
   entities_[id] = entity;
 
