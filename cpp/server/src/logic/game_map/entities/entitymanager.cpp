@@ -11,21 +11,21 @@ EntityManager::EntityManager() {}
 EntityManager::~EntityManager() {}
 
 Entity *EntityManager::SpawnEntity(/* some values */) {
-  Entity *entity = new Entity("Test", Health(10));
+  boost::uuids::uuid id = generator_();
 
-  Id id = (Id)entity;
+  Entity *entity = new Entity(id, "Test", Health(10));
 
   entities_[id] = entity;
 
   return entity;
 }
 
-Entity *EntityManager::GetEntity(Id id) {
+Entity *EntityManager::GetEntity(boost::uuids::uuid id) {
   return entities_[id];
 }
 
 void EntityManager::RemoveEntity(Entity *entity) {
-  Id id = (Id)entity;
+  const boost::uuids::uuid &id = entity->id();
   entities_.erase(id);
 
   delete entity;

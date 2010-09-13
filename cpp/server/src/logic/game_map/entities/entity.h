@@ -2,6 +2,7 @@
 #define SLICE_HACK_LOGIC_GAME_MAP_ENTITIES_ENTITY_H_
 
 #include <string>
+#include <boost/uuid/uuid.hpp>
 #include "logic/game_map/entities/health.h"
 
 namespace slice_hack {
@@ -10,15 +11,18 @@ namespace entities {
 
 class Entity {
  public:
-  Entity(const std::string &name, const Health &health);
+  Entity(const boost::uuids::uuid &id, const std::string &name,
+         const Health &health);
   virtual ~Entity();
 
   const std::string &name() const;
-  const Health &health() ;
+  const Health &health();
+  const boost::uuids::uuid &id() const;
 
   virtual void Run();
 
  private:
+  const boost::uuids::uuid id_;
   const std::string name_;
   Health health_;
 };

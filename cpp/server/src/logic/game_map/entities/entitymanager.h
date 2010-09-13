@@ -3,6 +3,8 @@
 
 #include <map>
 #include <stdint.h>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 namespace slice_hack {
 namespace game_map {
@@ -12,16 +14,16 @@ class Entity;
 
 class EntityManager {
  public:
-  typedef int64_t Id;
   EntityManager();
   virtual ~EntityManager();
 
   Entity *SpawnEntity(/* some values */);
-  Entity *GetEntity(Id id);
+  Entity *GetEntity(boost::uuids::uuid id);
   void RemoveEntity(Entity *entity);
  
  private:
-  std::map<Id, Entity *> entities_;
+  boost::uuids::random_generator generator_;
+  std::map<boost::uuids::uuid, Entity *> entities_;
 };
 
 }  // namespace entities
