@@ -9,7 +9,9 @@ namespace slice_hack {
 namespace game_map {
 
 GameMap::GameMap(int width, int height, int section_width, int section_height)
-    : width_(width), height_(height),
+    : EventTickInterface(),
+      entities::EntityPositionManagerInterface(),
+      width_(width), height_(height),
       section_width_(section_width), section_height_(section_height),
       entity_manager_(new entities::EntityManager()) {
 
@@ -19,11 +21,16 @@ GameMap::GameMap(int width, int height, int section_width, int section_height)
       Position pos(x, y);
       sections_[pos] =
         new GameMapSection(pos, section_width_, section_height_,
-                           entity_manager_);
+                           entity_manager_,
+                           this);
     }
   }
 
   // TODO(Chaosteil): Randomize terrain for sections.
+
+  // Test entity
+  entities::Entity *entity = entity_manager_->SpawnEntity();
+  sections_[Position(0, 0)]->SetEntityPosition(entity, Position(0, 0));
 }
 
 GameMap::~GameMap() {
@@ -56,6 +63,18 @@ void GameMap::Run() {
   BOOST_FOREACH (pos_section_t pos_section, sections_) {
     pos_section.second->Run();
   }
+}
+
+void GameMap::SetEntityPosition(entities::Entity *entity,
+                                const Position &position) {
+  GameMapSection *section = GetSectionFromPosition(position);
+
+  entities_[entity] = section;
+  entity->set_entity_position_manager(this);
+}
+
+void GameMap::RemoveEntity(entities::Entity *entity) {
+  entities_.erase(entity);
 }
 
 }  // namespace game_map

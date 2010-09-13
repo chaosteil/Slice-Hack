@@ -14,6 +14,9 @@ class Monster : public Entity {
   virtual ~Monster();
 
   virtual void Run();
+ 
+ private:
+  int tick_;
 };
 
 }  // namespace entities

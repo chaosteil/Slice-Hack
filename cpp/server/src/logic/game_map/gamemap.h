@@ -5,6 +5,7 @@
 
 #include "logic/eventloop.h"
 #include "logic/game_map/position.h"
+#include "logic/game_map/entities/entitypositionmanagerinterface.h"
 
 namespace slice_hack {
 namespace game_map {
@@ -16,7 +17,8 @@ class EntityManager;
 
 class GameMapSection;
 
-class GameMap : public EventTickInterface {
+class GameMap : public EventTickInterface,
+                public entities::EntityPositionManagerInterface {
  public:
   GameMap(int width, int height, int section_width, int section_height);
   virtual ~GameMap();
@@ -28,6 +30,9 @@ class GameMap : public EventTickInterface {
   GameMapSection *GetSectionFromEntity(entities::Entity *entity);
 
   virtual void Run();
+  virtual void SetEntityPosition(entities::Entity *entity,
+                                 const Position &position);
+  virtual void RemoveEntity(entities::Entity *entity);
 
  private:
   const int width_, height_;

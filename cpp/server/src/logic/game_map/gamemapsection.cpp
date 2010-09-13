@@ -10,10 +10,13 @@ namespace game_map {
 
 GameMapSection::GameMapSection(const Position &position,
                                int width, int height,
-                               entities::EntityManager *entity_manager)
+                               entities::EntityManager *entity_manager,
+                               entities::EntityPositionManagerInterface *epm)
     : EventTickInterface(),
+      EntityPositionManagerInterface(),
       position_(position), width_(width), height_(height),
       entity_manager_(entity_manager),
+      entity_pos_manager_(epm),
       terrain_(new char[width_ * height_]) {
 
   for (int i = 0; i < width_ * height_; i++) {
@@ -75,6 +78,26 @@ void GameMapSection::Run() {
   BOOST_FOREACH (entity_pos_t entity_pos, entities_) {
     entity_pos.first->Run();
   }
+}
+
+void GameMapSection::SetEntityPosition(entities::Entity *entity,
+                                       const Position &position) {
+  // Notify the original pos manager that there is an entity right here
+  if (entity_pos_manager_) {
+    entity_pos_manager_->SetEntityPosition(entity, position_);
+  }
+
+  entities_[entity] = position;
+  entity->set_entity_position_manager(this);
+}
+
+void GameMapSection::RemoveEntity(entities::Entity *entity) {
+  // Notify the original pos manager that this entity needs to be removed
+  if (entity_pos_manager_) {
+    entity_pos_manager_->RemoveEntity(entity);
+  }
+
+  entities_.erase(entity);
 }
 
 }  // namespace game_map

@@ -10,6 +10,8 @@ namespace slice_hack {
 namespace game_map {
 namespace entities {
 
+class EntityPositionManagerInterface;
+
 class Entity : public EventTickInterface {
  public:
   Entity(const boost::uuids::uuid &id, const std::string &name,
@@ -20,12 +22,18 @@ class Entity : public EventTickInterface {
   const Health &health();
   const boost::uuids::uuid &id() const;
 
+  EntityPositionManagerInterface &entity_position_manager() const;
+  void set_entity_position_manager(
+    EntityPositionManagerInterface *entity_position_manager);
+
   virtual void Run();
 
  private:
   const boost::uuids::uuid id_;
   const std::string name_;
   Health health_;
+
+  EntityPositionManagerInterface *entity_position_manager_;
 };
 
 }  // namespace entities
