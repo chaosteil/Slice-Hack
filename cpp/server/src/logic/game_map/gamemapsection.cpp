@@ -67,10 +67,12 @@ std::vector<entities::Entity *> GameMapSection::GetEntitiesOnPosition(
   Position new_map_pos(position);
   game_section_manager_->TranslatePosition(&new_section_pos, &new_map_pos);
 
+  // We found another section, so we get the entities from it.
   if (new_section_pos != position_) {
-    // TODO(Chaosteil): Give GameMap a sectionmanagerinterface, let the
-    // sections manage themselves.
-    return std::vector<entities::Entity *>();
+    GameMapSection *far_section =
+      game_section_manager_->GetSectionFromPosition(new_map_pos);
+    
+    return far_section->GetEntitiesOnPosition(new_map_pos);
   }
 
   typedef std::pair<entities::Entity*, Position> entity_pos_t;
