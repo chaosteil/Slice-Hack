@@ -29,6 +29,11 @@ GameMap::GameMap(int width, int height, int section_width, int section_height)
     }
   }
 
+  // Test Entity
+  entities::Entity *entity = entity_manager_->SpawnEntity();
+  GameMapSection *section = GetSectionFromPosition(Position(9, 9));
+  section->SetEntityPosition(entity, Position(9, 9));
+
   // TODO(Chaosteil): Randomize terrain for sections.
 }
 
@@ -73,20 +78,22 @@ void GameMap::TranslatePosition(Position *section_pos, Position *entity_pos) {
   Position new_entity_pos(*entity_pos);
 
   if (entity_pos->x() < 0 || entity_pos->x() >= width_) {
-    int section_offset_x = (floor((float)entity_pos->x() / section_width_));
-    int entity_offset_x = ((new_section_pos.x() -
+    int section_offset_x = section_pos->x() + 
+      floor((float)entity_pos->x() / section_width_);
+    int entity_offset_x = ((section_offset_x -
       section_pos->x()) * section_width_);
 
-    new_section_pos.set_x(section_pos->x() + section_offset_x);
+    new_section_pos.set_x(section_offset_x);
     new_entity_pos.set_x(entity_pos->x() - entity_offset_x);
   }
 
   if (entity_pos->y() < 0 || entity_pos->y() >= section_height_) {
-    int section_offset_y = floor((float)entity_pos->y() / section_height_);
-    int entity_offset_y = ((new_section_pos.y() -
+    int section_offset_y = section_pos->y() +
+      floor((float)entity_pos->y() / section_height_);
+    int entity_offset_y = ((section_offset_y -
       section_pos->y()) * section_height_);
 
-    new_section_pos.set_y(section_pos->y() + section_offset_y);
+    new_section_pos.set_y(section_offset_y);
     new_entity_pos.set_y(entity_pos->y() - entity_offset_y);
   }
 
