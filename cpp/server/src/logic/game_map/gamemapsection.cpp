@@ -1,5 +1,6 @@
 #include "logic/game_map/gamemapsection.h"
 
+#include <cmath>
 #include <iostream>
 #include <boost/foreach.hpp>
 #include "logic/game_map/entities/entitymanager.h"
@@ -52,10 +53,6 @@ const Position &GameMapSection::position() const {
   return position_;
 }
 
-Position GameMapSection::GetEntityPosition(entities::Entity *entity) {
-  return entities_[entity];
-}
-
 std::vector<entities::Entity *> GameMapSection::GetEntitiesOnPosition(
     const Position &position) {
 
@@ -74,8 +71,20 @@ std::vector<entities::Entity *> GameMapSection::GetEntitiesOnPosition(
 }
 
 void GameMapSection::Run() {
+  // First we need to copy all entities to a temp
+  // map, so we don't iterate through the original,
+  // since we want to modify it while the entity runs
+  std::map<entities::Entity *, Position> temp_entities(entities_);
+
+  // We check first if the entity is already removed from this section
+  // before processing it.
   typedef std::pair<entities::Entity *, Position> entity_pos_t;
-  BOOST_FOREACH (entity_pos_t entity_pos, entities_) {
+  BOOST_FOREACH (entity_pos_t entity_pos, temp_entities) {
+    if (entities_.find(entity_pos.first) ==
+        entities_.end()) {
+      continue;
+    }
+
     entity_pos.first->Run();
   }
 }
@@ -88,25 +97,26 @@ entities::EntityPositionManagerInterface *GameMapSection::SetEntityPosition(
     entity_pos_manager_->SetEntityPosition(entity, position_);
   }
 
+  // We determine if a section swap is going to happen
   Position new_section_pos(position_); 
+  Position new_map_pos(position);
+  TranslatePosition(&new_section_pos, &new_map_pos);
 
-  // TODO(Chaosteil): Make section swap transparent with this
-  if (position.x() < 0) {
-  } else if (position.x() >= width_) {
-  }
-
-  if (position.y() < 0) {
-  } else if (position.y() >= height_) {
-  }
-
+  // If we have a new section position, we want to first set this new
+  // position to the upper entity pos manager, then to one on the same
+  // level.
   if (position_ != new_section_pos) {
+    RemoveEntity(entity);
+
+    std::cout << "New section pos X: " << new_section_pos.x() << ", Y: " << new_section_pos.y() << std::endl;
+
     entities::EntityPositionManagerInterface *epm =
       entity_pos_manager_->SetEntityPosition(entity, new_section_pos);
 
-    // TODO(Chaosteil): Find new real position
-    return epm->SetEntityPosition(entity, new_section_pos);
+    return epm->SetEntityPosition(entity, new_map_pos);
   }
 
+  // No section swap happened, so we just set to the position we wanted
   entities_[entity] = position;
   entity->set_entity_position_manager(this);
 
@@ -119,7 +129,34 @@ void GameMapSection::RemoveEntity(entities::Entity *entity) {
     entity_pos_manager_->RemoveEntity(entity);
   }
 
+  std::cout << "Removed" << std::endl;
   entities_.erase(entity);
+}
+
+Position GameMapSection::GetEntityPosition(entities::Entity *entity) {
+  return entities_[entity];
+}
+
+void GameMapSection::TranslatePosition(Position *section, Position *entity) {
+  Position new_section_pos(*section); 
+  Position new_map_pos(*entity);
+
+  if (entity->x() < 0 || entity->x() >= width_) {
+    new_section_pos.set_x(section->x() +
+      (int)(floor((float)entity->x() / width_)));
+    new_map_pos.set_x(entity->x() -
+      ((new_section_pos.x() - section->x()) * width_));
+  }
+
+  if (entity->y() < 0 || entity->y() >= height_) {
+    new_section_pos.set_y(section->y() +
+      (int)(floor((float)entity->y() / height_)));
+    new_map_pos.set_y(entity->y() -
+      ((new_section_pos.y() - section->y()) * height_));
+  }
+
+  *section = new_section_pos;
+  *entity = new_map_pos;
 }
 
 }  // namespace game_map

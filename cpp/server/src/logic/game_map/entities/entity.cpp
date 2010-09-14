@@ -23,8 +23,8 @@ const boost::uuids::uuid &Entity::id() const {
   return id_;
 }
 
-EntityPositionManagerInterface &Entity::entity_position_manager() const {
-  return *entity_position_manager_;
+EntityPositionManagerInterface *Entity::entity_position_manager() const {
+  return entity_position_manager_;
 }
 
 void Entity::set_entity_position_manager(

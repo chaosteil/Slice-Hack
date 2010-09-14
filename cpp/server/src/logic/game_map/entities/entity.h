@@ -5,12 +5,11 @@
 #include <boost/uuid/uuid.hpp>
 #include "logic/eventloop.h"
 #include "logic/game_map/entities/health.h"
+#include "logic/game_map/entities/entitypositionmanagerinterface.h"
 
 namespace slice_hack {
 namespace game_map {
 namespace entities {
-
-class EntityPositionManagerInterface;
 
 class Entity : public EventTickInterface {
  public:
@@ -22,7 +21,7 @@ class Entity : public EventTickInterface {
   const Health &health();
   const boost::uuids::uuid &id() const;
 
-  EntityPositionManagerInterface &entity_position_manager() const;
+  EntityPositionManagerInterface *entity_position_manager() const;
   void set_entity_position_manager(
     EntityPositionManagerInterface *entity_position_manager);
 

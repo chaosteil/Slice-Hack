@@ -13,14 +13,14 @@ GameMap::GameMap(int width, int height, int section_width, int section_height)
       entities::EntityPositionManagerInterface(),
       width_(width), height_(height),
       section_width_(section_width), section_height_(section_height),
-      entity_manager_(new entities::EntityManager()) {
+      entity_manager_(new entities::EntityManager()),
+      sections_(width * height) {
 
   // Initialize all sections
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      Position pos(x, y);
-      sections_[pos] =
-        new GameMapSection(pos, section_width_, section_height_,
+      sections_.at(y * width + x) = 
+        new GameMapSection(Position(x, y), section_width_, section_height_,
                            entity_manager_,
                            this);
     }
@@ -30,13 +30,13 @@ GameMap::GameMap(int width, int height, int section_width, int section_height)
 
   // Test entity
   entities::Entity *entity = entity_manager_->SpawnEntity();
-  sections_[Position(0, 0)]->SetEntityPosition(entity, Position(0, 0));
+  GetSectionFromPosition(Position(0, 0))->SetEntityPosition(entity,
+                                                            Position(0, 0));
 }
 
 GameMap::~GameMap() {
-  typedef std::pair<Position, GameMapSection *> pos_section_t;
-  BOOST_FOREACH (pos_section_t pos_section, sections_) {
-    delete pos_section.second;
+  BOOST_FOREACH (GameMapSection *section, sections_) {
+    delete section;
   }
 
   delete entity_manager_;
@@ -51,7 +51,7 @@ int GameMap::height() const {
 }
 
 GameMapSection *GameMap::GetSectionFromPosition(const Position &position) {
-  return sections_[position];
+  return sections_.at(position.y() * width_ + position.x());
 }
 
 GameMapSection *GameMap::GetSectionFromEntity(entities::Entity *entity) {
@@ -59,9 +59,8 @@ GameMapSection *GameMap::GetSectionFromEntity(entities::Entity *entity) {
 }
 
 void GameMap::Run() {
-  typedef std::pair<Position, GameMapSection *> pos_section_t;
-  BOOST_FOREACH (pos_section_t pos_section, sections_) {
-    pos_section.second->Run();
+  BOOST_FOREACH (GameMapSection *section, sections_) {
+    section->Run();
   }
 }
 
@@ -78,6 +77,11 @@ entities::EntityPositionManagerInterface *GameMap::SetEntityPosition(
 
 void GameMap::RemoveEntity(entities::Entity *entity) {
   entities_.erase(entity);
+}
+
+Position GameMap::GetEntityPosition(entities::Entity *entity) {
+  GameMapSection *section = GetSectionFromEntity(entity);
+  return section->position();
 }
 
 }  // namespace game_map

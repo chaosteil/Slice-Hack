@@ -10,6 +10,12 @@ Position::Position(const Position &position)
 
 Position::~Position() {}
 
+Position Position::operator=(const Position &position) {
+  x_ = position.x();
+  y_ = position.y();
+  return *this;
+}
+
 bool Position::operator==(const Position &position) const {
   return x_ == position.x_ && y_ == position.y_;
 }
@@ -19,7 +25,13 @@ bool Position::operator!=(const Position &position) const {
 }
 
 bool Position::operator<(const Position &position) const {
-  return x_ < position.x_ || y_ < position.y_;
+  if (x_ < position.x_) {
+    return true;
+  } else if (y_ < position.y_) {
+    return true;
+  }
+
+  return false;
 }
 
 int Position::x() const {

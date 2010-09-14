@@ -30,7 +30,6 @@ class GameMapSection : public EventTickInterface,
 
   void SetTerrain(const Position &pos, char value);
   const Position &position() const;
-  Position GetEntityPosition(entities::Entity *entity);
   std::vector<entities::Entity *> GetEntitiesOnPosition(
     const Position &position);
 
@@ -39,8 +38,11 @@ class GameMapSection : public EventTickInterface,
     entities::Entity *entity,
     const Position &position);
   virtual void RemoveEntity(entities::Entity *entity);
+  virtual Position GetEntityPosition(entities::Entity *entity);
 
  private:
+  void TranslatePosition(Position *section_pos, Position *entity);
+
   const Position position_;
   const int width_, height_;
   entities::EntityManager *entity_manager_;

@@ -10,7 +10,7 @@ namespace slice_hack {
 Game::Game()
     : events::EventVisitorInterface(),
       EventTickInterface(),
-      map_(new game_map::GameMap(10, 10, 20, 20)) {}
+      map_(new game_map::GameMap(10, 10, 20, 15)) {}
 
 Game::~Game() {
   delete map_;
@@ -23,8 +23,8 @@ void Game::AddEvent(events::Event *event) {
 void Game::Run() {
   // TODO(Chaosteil):
   // 1. Drain event queue
-  // 2. Run NPC logic
 
+  // 2. Run NPC logic.
   map_->Run();
 }
 

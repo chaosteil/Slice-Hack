@@ -18,7 +18,14 @@ void Monster::Run() {
   if (tick_ == 10) {
     tick_ = 0;
 
-    std::cout << "Imma monsta!" << std::endl;
+    EntityPositionManagerInterface *manager = entity_position_manager();
+
+    Position pos = manager->GetEntityPosition(this);
+    manager = manager->SetEntityPosition(this,
+      Position(pos.x() + 1, pos.y() + 1));
+    pos = manager->GetEntityPosition(this);
+
+    std::cout << "Imma monsta! X: " << pos.x() << ", Y: " << pos.y() << std::endl;
   }
 }
 
