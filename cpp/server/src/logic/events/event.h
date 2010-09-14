@@ -12,7 +12,7 @@ class Event {
   Event();
   virtual ~Event();
 
-  virtual void accept(EventVisitorInterface *event_visitor_interface) = 0;
+  virtual void Accept(EventVisitorInterface *event_visitor_interface) = 0;
 };
 
 }  // namespace events 
