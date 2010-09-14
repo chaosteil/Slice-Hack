@@ -27,11 +27,6 @@ GameMap::GameMap(int width, int height, int section_width, int section_height)
   }
 
   // TODO(Chaosteil): Randomize terrain for sections.
-
-  // Test entity
-  entities::Entity *entity = entity_manager_->SpawnEntity();
-  GetSectionFromPosition(Position(0, 0))->SetEntityPosition(entity,
-                                                            Position(0, 0));
 }
 
 GameMap::~GameMap() {

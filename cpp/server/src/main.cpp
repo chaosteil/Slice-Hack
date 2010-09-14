@@ -1,10 +1,17 @@
 #include <iostream>
+#include <boost/random/mersenne_twister.hpp>
+#include <time.h>
 
 #include "signal_handlers.h"
 #include "logic/game.h"
 #include "logic/eventloop.h"
 
 int main(int argc, const char **argv) {
+  // Seed the global rng
+  boost::mt19937 gen;
+  gen.seed(time(0));
+
+  // Start up game and logic
   slice_hack::EventLoop *event_loop = new slice_hack::EventLoop();
   slice_hack::Game *game = new slice_hack::Game();
 
