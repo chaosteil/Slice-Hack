@@ -6,6 +6,7 @@ namespace events {
 
 class EventVisitorInterface;
 
+// These events are used for player -> server communication.
 class Event {
  public:
   Event();

@@ -10,6 +10,7 @@ namespace slice_hack {
 Game::Game()
     : events::EventVisitorInterface(),
       EventTickInterface(),
+      // TODO(Chaosteil): Get values from settings
       map_(new game_map::GameMap(10, 10, 20, 15)) {}
 
 Game::~Game() {
@@ -21,8 +22,16 @@ void Game::AddEvent(events::Event *event) {
 }
 
 void Game::Run() {
-  // TODO(Chaosteil):
-  // 1. Drain event queue
+  // 1. Drain event queue. We want to copy the original queue,
+  //    so it can be filled why it is running.
+  std::queue<events::Event *> events_temp(events_);
+  while (!events_.empty()) {
+    events_.pop();
+  }
+  
+  while (!events_temp.empty()) {
+    // TODO(Chaosteil): Do some logic.
+  }
 
   // 2. Run NPC logic.
   map_->Run();

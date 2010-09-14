@@ -7,7 +7,7 @@
 #include "logic/eventloop.h"
 
 int main(int argc, const char **argv) {
-  // Seed the global rng
+  // Seed the global random number generator
   boost::mt19937 gen;
   gen.seed(time(0));
 

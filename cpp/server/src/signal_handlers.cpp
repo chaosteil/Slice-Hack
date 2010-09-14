@@ -15,6 +15,7 @@ void Init() {
 }
 
 void HandlerSIGINT(int signal) {
+  // TODO(Chaosteil): Find a way to stop the event loop through the method.
   event_loopbreak();
 }
 

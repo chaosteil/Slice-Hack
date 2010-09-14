@@ -4,6 +4,8 @@
 namespace signal_handlers {
 
 void Init();
+
+// Handles Control+C in the terminal.
 void HandlerSIGINT(int signal);
 
 }  // namespace signal_handlers

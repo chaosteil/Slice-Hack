@@ -33,22 +33,28 @@ void EventLoop::Stop() {
 }
 
 void EventLoop::RunEventTicks(int fd, short event, void *e_loop) {
+  // We just convert back from the void pointer to the event loop
+  // and then go.
   EventLoop *event_loop = static_cast<EventLoop*>(e_loop);
   
   event_loop->Run(); 
 }
 
 void EventLoop::Run() {
-  BOOST_FOREACH (EventTickInterface *eti, event_ticks_) {
+  // We copy the list before processing it.
+  // Maybe someone will want to add another EventTickInterface?
+  std::list<EventTickInterface *> event_ticks_temp(event_ticks_);
+  BOOST_FOREACH (EventTickInterface *eti, event_ticks_temp) {
     eti->Run();
   }
 
+  // Set up our timer.
 	timeval tv;
   evtimer_set(&timer_, RunEventTicks, this);
 
 	evutil_timerclear(&tv);
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000000 / fps_;
+	tv.tv_usec = 1000000 / fps_; // Will run at x frames per second
 
 	evtimer_add (&timer_, &tv);
 }

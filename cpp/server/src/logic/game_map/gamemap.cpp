@@ -46,7 +46,13 @@ int GameMap::height() const {
 }
 
 GameMapSection *GameMap::GetSectionFromPosition(const Position &position) {
-  return sections_.at(position.y() * width_ + position.x());
+  int pos = position.y() * width_ + position.x();
+
+  if (pos < 0 || pos >= sections_.size()) {
+    return NULL;
+  }
+
+  return sections_.at(pos);
 }
 
 GameMapSection *GameMap::GetSectionFromEntity(entities::Entity *entity) {

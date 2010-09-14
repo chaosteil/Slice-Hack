@@ -13,9 +13,14 @@ class EntityPositionManagerInterface {
  public:
   virtual ~EntityPositionManagerInterface() {}
   
+  // Returns the new manager of the entity. Switching positions
+  // may cause the entity to switch managers, so users
+  // should always update the manager after this.
   virtual EntityPositionManagerInterface *SetEntityPosition(Entity *entity,
     const Position &position) = 0;
   virtual void RemoveEntity(Entity *entity) = 0;
+  // Must get the position relative to the current level deepness of
+  // the manager.
   virtual Position GetEntityPosition(Entity *entity) = 0;
 
  protected:

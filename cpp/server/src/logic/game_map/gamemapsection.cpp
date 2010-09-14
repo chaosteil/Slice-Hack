@@ -60,6 +60,17 @@ std::vector<entities::Entity *> GameMapSection::GetEntitiesOnPosition(
   // all entities and pushing them into a vector we return
   std::vector<entities::Entity *> entities;
 
+  // We determine if a section swap is going to happen
+  Position new_section_pos(position_); 
+  Position new_map_pos(position);
+  TranslatePosition(&new_section_pos, &new_map_pos);
+
+  if (new_section_pos != position_) {
+    // TODO(Chaosteil): Give GameMap a sectionmanagerinterface, let the
+    // sections manage themselves.
+    return std::vector<entities::Entity *>();
+  }
+
   typedef std::pair<entities::Entity*, Position> entity_pos_t;
   BOOST_FOREACH (entity_pos_t entity_pos, entities_) {
     if (entity_pos.second == position) {

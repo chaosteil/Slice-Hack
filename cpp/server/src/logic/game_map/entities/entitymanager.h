@@ -17,9 +17,10 @@ class EntityManager {
   EntityManager();
   virtual ~EntityManager();
 
-  Entity *SpawnEntity(/* some values */);
-  Entity *GetEntity(const boost::uuids::uuid &id);
-  void RemoveEntity(Entity *entity);
+  // Entity factory. Assigns the entity a uuid.
+  virtual Entity *SpawnEntity(/* some values */);
+  virtual Entity *GetEntity(const boost::uuids::uuid &id);
+  virtual void RemoveEntity(Entity *entity);
  
  private:
   boost::uuids::random_generator generator_;
