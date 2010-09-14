@@ -1,5 +1,6 @@
 #include "logic/game_map/entities/entitymanager.h"
 
+#include <boost/foreach.hpp>
 #include "logic/game_map/entities/entity.h"
 #include "logic/game_map/entities/monster.h"
 
@@ -9,7 +10,14 @@ namespace entities {
 
 EntityManager::EntityManager() {}
 
-EntityManager::~EntityManager() {}
+EntityManager::~EntityManager() {
+  typedef std::pair<boost::uuids::uuid, Entity *> uuid_entity_t;
+  BOOST_FOREACH (uuid_entity_t uuid_entity, entities_) {
+    delete uuid_entity.second;
+  }
+
+  entities_.clear();
+}
 
 Entity *EntityManager::SpawnEntity(/* some values */) {
   boost::uuids::uuid id = generator_();

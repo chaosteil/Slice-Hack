@@ -46,9 +46,9 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_slicehack_OBJECTS = main.$(OBJEXT) logic/game.$(OBJEXT) \
-	logic/eventloop.$(OBJEXT) logic/events/event.$(OBJEXT) \
-	logic/game_map/gamemap.$(OBJEXT) \
+am_slicehack_OBJECTS = main.$(OBJEXT) signal_handlers.$(OBJEXT) \
+	logic/game.$(OBJEXT) logic/eventloop.$(OBJEXT) \
+	logic/events/event.$(OBJEXT) logic/game_map/gamemap.$(OBJEXT) \
 	logic/game_map/gamemapsection.$(OBJEXT) \
 	logic/game_map/position.$(OBJEXT) \
 	logic/game_map/entities/entity.$(OBJEXT) \
@@ -163,6 +163,8 @@ AM_CPPFLAGS = $(DEPS_CFLAGS)
 slicehack_LDADD = $(DEPS_LIBS)
 slicehack_SOURCES = \
   main.cpp \
+	signal_handlers.cpp \
+	\
 	logic/game.cpp \
 	logic/eventloop.cpp \
 	\
@@ -318,6 +320,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signal_handlers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/eventloop.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/game.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/event.Po@am__quote@

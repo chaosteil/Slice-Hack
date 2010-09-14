@@ -5,6 +5,8 @@ AM_CPPFLAGS = $(DEPS_CFLAGS)
 slicehack_LDADD = $(DEPS_LIBS)
 slicehack_SOURCES = \
   main.cpp \
+	signal_handlers.cpp \
+	\
 	logic/game.cpp \
 	logic/eventloop.cpp \
 	\
