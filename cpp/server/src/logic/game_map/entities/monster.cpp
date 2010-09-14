@@ -7,8 +7,8 @@ namespace game_map {
 namespace entities {
 
 Monster::Monster(const boost::uuids::uuid &id, const std::string &name,
-                 const Health &health)
-    : Entity(id, name, health),
+                 const std::string &gfx, const Health &health)
+    : Entity(id, name, gfx, health),
       tick_(0) {}
 
 Monster::~Monster() {}

@@ -14,11 +14,12 @@ namespace entities {
 class Entity : public EventTickInterface {
  public:
   Entity(const boost::uuids::uuid &id, const std::string &name,
-         const Health &health);
+         const std::string &gfx, const Health &health);
   virtual ~Entity();
 
   const std::string &name() const;
   const Health &health();
+  const std::string &gfx() const;
   const boost::uuids::uuid &id() const;
 
   EntityPositionManagerInterface *entity_position_manager() const;
@@ -30,6 +31,7 @@ class Entity : public EventTickInterface {
  private:
   const boost::uuids::uuid id_;
   const std::string name_;
+  const std::string gfx_;
   Health health_;
 
   EntityPositionManagerInterface *entity_position_manager_;

@@ -5,14 +5,18 @@ namespace game_map {
 namespace entities {
 
 Entity::Entity(const boost::uuids::uuid &id, const std::string &name,
-               const Health &health)
+               const std::string &gfx, const Health &health)
     : EventTickInterface(),
-      id_(id), name_(name), health_(health) {}
+      id_(id), name_(name), gfx_(gfx), health_(health) {}
 
 Entity::~Entity() {}
 
 const std::string &Entity::name() const {
   return name_;
+}
+
+const std::string &Entity::gfx() const {
+  return gfx_;
 }
 
 const Health &Entity::health() {

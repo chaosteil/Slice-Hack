@@ -22,7 +22,7 @@ EntityManager::~EntityManager() {
 Entity *EntityManager::SpawnEntity(/* some values */) {
   boost::uuids::uuid id = generator_();
 
-  Entity *entity = new Monster(id, "Test", Health(10));
+  Entity *entity = new Monster(id, "Test", "monster", Health(10));
 
   entities_[id] = entity;
 

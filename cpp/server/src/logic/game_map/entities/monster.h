@@ -10,7 +10,7 @@ namespace entities {
 class Monster : public Entity {
  public:
   Monster(const boost::uuids::uuid &id, const std::string &name,
-          const Health &health);
+          const std::string &gfx, const Health &health);
   virtual ~Monster();
 
   virtual void Run();
