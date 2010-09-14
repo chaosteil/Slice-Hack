@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "logic/eventloop.h"
+#include "logic/game_map/gamesectionmanagerinterface.h"
 #include "logic/game_map/position.h"
 #include "logic/game_map/entities/entitypositionmanagerinterface.h"
 
@@ -19,6 +20,7 @@ class EntityManager;
 class GameMapSection;
 
 class GameMap : public EventTickInterface,
+                public GameMapSectionManagerInterface,
                 public entities::EntityPositionManagerInterface {
  public:
   GameMap(int width, int height, int section_width, int section_height);
@@ -27,10 +29,12 @@ class GameMap : public EventTickInterface,
   int width() const;
   int height() const;
 
-  GameMapSection *GetSectionFromPosition(const Position &position);
-  GameMapSection *GetSectionFromEntity(entities::Entity *entity);
-
   virtual void Run();
+
+  virtual GameMapSection *GetSectionFromEntity(entities::Entity *entity);
+  virtual GameMapSection *GetSectionFromPosition(const Position &position);
+  virtual void TranslatePosition(Position *section_pos, Position *entity_pos);
+
   virtual entities::EntityPositionManagerInterface *SetEntityPosition(
     entities::Entity *entity,
     const Position &position);

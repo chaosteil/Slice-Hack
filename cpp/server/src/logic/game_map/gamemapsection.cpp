@@ -1,8 +1,8 @@
 #include "logic/game_map/gamemapsection.h"
 
-#include <cmath>
 #include <iostream>
 #include <boost/foreach.hpp>
+#include "logic/game_map/gamesectionmanagerinterface.h"
 #include "logic/game_map/entities/entitymanager.h"
 #include "logic/game_map/entities/entity.h"
 
@@ -11,11 +11,13 @@ namespace game_map {
 
 GameMapSection::GameMapSection(const Position &position,
                                int width, int height,
+                               GameMapSectionManagerInterface *gs_manager,
                                entities::EntityManager *entity_manager,
                                entities::EntityPositionManagerInterface *epm)
     : EventTickInterface(),
       EntityPositionManagerInterface(),
       position_(position), width_(width), height_(height),
+      game_section_manager_(gs_manager),
       entity_manager_(entity_manager),
       entity_pos_manager_(epm),
       terrain_(new char[width_ * height_]) {
@@ -63,7 +65,7 @@ std::vector<entities::Entity *> GameMapSection::GetEntitiesOnPosition(
   // We determine if a section swap is going to happen
   Position new_section_pos(position_); 
   Position new_map_pos(position);
-  TranslatePosition(&new_section_pos, &new_map_pos);
+  game_section_manager_->TranslatePosition(&new_section_pos, &new_map_pos);
 
   if (new_section_pos != position_) {
     // TODO(Chaosteil): Give GameMap a sectionmanagerinterface, let the
@@ -111,7 +113,7 @@ entities::EntityPositionManagerInterface *GameMapSection::SetEntityPosition(
   // We determine if a section swap is going to happen
   Position new_section_pos(position_); 
   Position new_map_pos(position);
-  TranslatePosition(&new_section_pos, &new_map_pos);
+  game_section_manager_->TranslatePosition(&new_section_pos, &new_map_pos);
 
   // If we have a new section position, we want to first set this new
   // position to the upper entity pos manager, then to one on the same
@@ -143,28 +145,6 @@ void GameMapSection::RemoveEntity(entities::Entity *entity) {
 
 Position GameMapSection::GetEntityPosition(entities::Entity *entity) {
   return entities_[entity];
-}
-
-void GameMapSection::TranslatePosition(Position *section, Position *entity) {
-  Position new_section_pos(*section); 
-  Position new_map_pos(*entity);
-
-  if (entity->x() < 0 || entity->x() >= width_) {
-    new_section_pos.set_x(section->x() +
-      (int)(floor((float)entity->x() / width_)));
-    new_map_pos.set_x(entity->x() -
-      ((new_section_pos.x() - section->x()) * width_));
-  }
-
-  if (entity->y() < 0 || entity->y() >= height_) {
-    new_section_pos.set_y(section->y() +
-      (int)(floor((float)entity->y() / height_)));
-    new_map_pos.set_y(entity->y() -
-      ((new_section_pos.y() - section->y()) * height_));
-  }
-
-  *section = new_section_pos;
-  *entity = new_map_pos;
 }
 
 }  // namespace game_map

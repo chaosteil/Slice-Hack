@@ -16,6 +16,8 @@ class EventTickInterface {
   EventTickInterface() {}
 };
 
+// Runs our main game loop and routes
+// the network logic through here.
 class EventLoop {
  public:
   EventLoop();

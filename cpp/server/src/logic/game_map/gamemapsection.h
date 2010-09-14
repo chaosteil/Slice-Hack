@@ -16,10 +16,13 @@ class Entity;
 class EntityManager;
 }  // namespace entitites
 
+class GameMapSectionManagerInterface;
+
 class GameMapSection : public EventTickInterface,
                        public entities::EntityPositionManagerInterface {
  public:
   GameMapSection(const Position &position, int width, int height,
+                 GameMapSectionManagerInterface *game_section_manager,
                  entities::EntityManager *entity_manager,
                  entities::EntityPositionManagerInterface *epm);
   virtual ~GameMapSection();
@@ -41,10 +44,11 @@ class GameMapSection : public EventTickInterface,
   virtual Position GetEntityPosition(entities::Entity *entity);
 
  private:
-  void TranslatePosition(Position *section_pos, Position *entity);
-
   const Position position_;
   const int width_, height_;
+
+  GameMapSectionManagerInterface *game_section_manager_;
+
   entities::EntityManager *entity_manager_;
   entities::EntityPositionManagerInterface *entity_pos_manager_;
 
