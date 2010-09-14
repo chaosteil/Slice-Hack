@@ -20,8 +20,11 @@ void EventLoop::AddEventTick(EventTickInterface *event_tick_interface) {
 
 void EventLoop::Start(int fps) {
   fps_ = fps;
-  RunEventTicks(0, 0, this);
 
+  // Run once to init the tick
+  Run();
+
+  // This is our loop.
   event_dispatch();
 }
 
@@ -33,21 +36,21 @@ void EventLoop::RunEventTicks(int fd, short event, void *e_loop) {
   EventLoop *event_loop = static_cast<EventLoop*>(e_loop);
   
   event_loop->Run(); 
-
-	timeval tv;
-  evtimer_set(&event_loop->timer_, RunEventTicks, event_loop);
-
-	evutil_timerclear(&tv);
-	tv.tv_sec = 0;
-	tv.tv_usec = 1000000 / event_loop->fps_;
-
-	evtimer_add (&event_loop->timer_, &tv);
 }
 
 void EventLoop::Run() {
   BOOST_FOREACH (EventTickInterface *eti, event_ticks_) {
     eti->Run();
   }
+
+	timeval tv;
+  evtimer_set(&timer_, RunEventTicks, this);
+
+	evutil_timerclear(&tv);
+	tv.tv_sec = 0;
+	tv.tv_usec = 1000000 / fps_;
+
+	evtimer_add (&timer_, &tv);
 }
 
 }  // namespace slice_hack
