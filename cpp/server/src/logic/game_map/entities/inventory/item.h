@@ -19,13 +19,15 @@ class Item {
   Item(Type type, int value, const std::string &gfx);
   virtual ~Item();
 
+  bool operator==(const Item &item);
+
   Type type() const;
   int value() const;
   const std::string &gfx() const;
 
  private:
-  Type type_;
-  int value_;
+  const Type type_;
+  const int value_;
   const std::string &gfx_;
 };
 

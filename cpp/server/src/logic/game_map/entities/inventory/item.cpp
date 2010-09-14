@@ -10,6 +10,10 @@ Item::Item(Type type, int value, const std::string &gfx)
 
 Item::~Item() {}
 
+bool Item::operator==(const Item &item) {
+  return type_ == item.type_ && value_ == item.value_ && gfx_ == item.gfx_;
+}
+
 Item::Type Item::type() const {
   return type_;
 }
