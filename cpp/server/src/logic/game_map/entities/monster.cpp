@@ -8,7 +8,8 @@ namespace entities {
 
 Monster::Monster(const boost::uuids::uuid &id, const std::string &name,
                  const Health &health)
-    : Entity(id, name, health) {}
+    : Entity(id, name, health),
+      tick_(0) {}
 
 Monster::~Monster() {}
 

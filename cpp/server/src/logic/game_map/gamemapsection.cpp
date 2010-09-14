@@ -108,8 +108,6 @@ entities::EntityPositionManagerInterface *GameMapSection::SetEntityPosition(
   if (position_ != new_section_pos) {
     RemoveEntity(entity);
 
-    std::cout << "New section pos X: " << new_section_pos.x() << ", Y: " << new_section_pos.y() << std::endl;
-
     entities::EntityPositionManagerInterface *epm =
       entity_pos_manager_->SetEntityPosition(entity, new_section_pos);
 
@@ -129,7 +127,6 @@ void GameMapSection::RemoveEntity(entities::Entity *entity) {
     entity_pos_manager_->RemoveEntity(entity);
   }
 
-  std::cout << "Removed" << std::endl;
   entities_.erase(entity);
 }
 
