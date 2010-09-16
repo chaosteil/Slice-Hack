@@ -17,18 +17,21 @@ class Item {
   };
 
   Item(Type type, int value, const std::string &gfx);
+  Item(const Item &item);
   virtual ~Item();
 
+  Item &operator=(const Item &item);
   bool operator==(const Item &item);
+  bool operator!=(const Item &item);
 
   Type type() const;
   int value() const;
   const std::string &gfx() const;
 
  private:
-  const Type type_;
-  const int value_;
-  const std::string &gfx_;
+  Type type_;
+  int value_;
+  std::string gfx_;
 };
 
 }  // namespace inventory

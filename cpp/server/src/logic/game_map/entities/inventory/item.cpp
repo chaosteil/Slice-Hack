@@ -8,10 +8,25 @@ namespace inventory {
 Item::Item(Type type, int value, const std::string &gfx)
     : type_(type), value_(value), gfx_(gfx) {}
 
+Item::Item(const Item &item)
+    : type_(item.type_), value_(item.value_), gfx_(item.gfx_) {}
+
 Item::~Item() {}
+
+Item &Item::operator=(const Item &item) {
+  type_ = item.type_;
+  value_ = item.value_;
+  gfx_ = item.gfx_;
+
+  return *this;
+}
 
 bool Item::operator==(const Item &item) {
   return type_ == item.type_ && value_ == item.value_ && gfx_ == item.gfx_;
+}
+
+bool Item::operator!=(const Item &item) {
+  return !(*this == item);
 }
 
 Item::Type Item::type() const {

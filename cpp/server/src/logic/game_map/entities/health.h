@@ -7,7 +7,7 @@ namespace entities {
 
 class Health {
  public:
-  Health(int max_health);
+  explicit Health(int max_health);
   virtual ~Health();
 
   int health() const;
