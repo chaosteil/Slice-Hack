@@ -18,6 +18,7 @@ class GameMapRandomizer {
  private:
   void BuildFoundation();
   void GenerateDirt();
+  void AddObjects();
   
   GameMapSectionManagerInterface *manager_;
   int width_, height_;

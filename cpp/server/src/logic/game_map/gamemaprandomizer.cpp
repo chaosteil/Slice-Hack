@@ -29,6 +29,7 @@ void GameMapRandomizer::RandomizeTerrain(
   // 2. Add a random amount of dirt everywhere
   GenerateDirt();
   // 4. Add some objects
+  AddObjects();
   // 5. Add water
   // 6. Add dirt roads
   // 7. Add dirt around water
@@ -65,6 +66,24 @@ void GameMapRandomizer::GenerateDirt() {
     
     GameMapSection *section = manager_->GetSectionFromPosition(section_pos);
     section->SetTerrain(pos, GameMapSection::kDirt);
+  }
+}
+
+void GameMapRandomizer::AddObjects() {
+  boost::mt19937 gen;
+  int amount = width_ * height_ * section_width_;
+
+  for (int i = 0; i < amount; i++) { 
+    int x = gen() % (width_ * section_width_);
+    int y = gen() % (height_ * section_height_);
+    int terrain = gen() % 5;
+
+    Position section_pos(0, 0);
+    Position pos(x, y);
+    manager_->TranslatePosition(&section_pos, &pos);
+    
+    GameMapSection *section = manager_->GetSectionFromPosition(section_pos);
+    section->SetTerrain(pos, terrain + 28);
   }
 }
 

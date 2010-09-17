@@ -56,6 +56,7 @@ class GameMapSection : public EventTickInterface,
     kGrass_Small = 31,
     kGrass_Big = 32
   };
+
   GameMapSection(const Position &position, int width, int height,
                  GameMapSectionManagerInterface *game_section_manager,
                  entities::EntityManager *entity_manager,
