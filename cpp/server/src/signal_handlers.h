@@ -1,12 +1,15 @@
 #ifndef SLICE_HACK_SIGNAL_HANDLERS_H_
 #define SLICE_HACK_SIGNAL_HANDLERS_H_
 
+namespace slice_hack {
+class EventLoop;
+}  // namespace slice_hack
+
 namespace signal_handlers {
 
-void Init();
+void Init(slice_hack::EventLoop *event_loop);
 
-// Handles Control+C in the terminal.
-void HandlerSIGINT(int signal);
+void SignalHandler(int signal);
 
 }  // namespace signal_handlers
 

@@ -36,6 +36,7 @@ class EventLoop {
   std::list<EventTickInterface *> event_ticks_;
   event timer_;
   int fps_;
+  event_base *event_base_;
 };
 
 }  // namespace slice_hack

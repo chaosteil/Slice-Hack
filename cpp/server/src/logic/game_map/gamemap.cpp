@@ -2,9 +2,10 @@
 
 #include <cmath>
 #include <boost/foreach.hpp>
+#include "logic/game_map/gamemapsection.h"
+#include "logic/game_map/gamemaprandomizer.h"
 #include "logic/game_map/entities/entity.h"
 #include "logic/game_map/entities/entitymanager.h"
-#include "logic/game_map/gamemapsection.h"
 
 namespace slice_hack {
 namespace game_map {
@@ -29,12 +30,15 @@ GameMap::GameMap(int width, int height, int section_width, int section_height)
     }
   }
 
+  // Randomize terrain for sections.
+  GameMapRandomizer randomizer;
+  randomizer.RandomizeTerrain(this, width, height,
+                              section_width, section_height);
+
   // Test Entity
   entities::Entity *entity = entity_manager_->SpawnEntity();
   GameMapSection *section = GetSectionFromPosition(Position(9, 9));
   section->SetEntityPosition(entity, Position(9, 9));
-
-  // TODO(Chaosteil): Randomize terrain for sections.
 }
 
 GameMap::~GameMap() {

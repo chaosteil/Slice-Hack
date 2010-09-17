@@ -18,7 +18,7 @@ int main(int argc, const char **argv) {
   event_loop->AddEventTick(game);
 
   // Enable our signal handlers before running
-  signal_handlers::Init();
+  signal_handlers::Init(event_loop);
   
   std::cout << "Starting game..." << std::endl;
   

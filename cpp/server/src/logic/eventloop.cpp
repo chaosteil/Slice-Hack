@@ -4,12 +4,12 @@
 
 namespace slice_hack {
 
-EventLoop::EventLoop() : fps_(30) {
-  event_init();
-}
+EventLoop::EventLoop() : fps_(30), event_base_(event_base_new()) {}
 
 EventLoop::~EventLoop() {
   Stop();
+
+  event_base_free(event_base_);
 }
 
 void EventLoop::AddEvent() {}
@@ -25,11 +25,11 @@ void EventLoop::Start(int fps) {
   Run();
 
   // This is our loop.
-  event_dispatch();
+  event_base_dispatch(event_base_);
 }
 
 void EventLoop::Stop() {
-  event_loopbreak();
+  event_base_loopbreak(event_base_);
 }
 
 void EventLoop::RunEventTicks(int fd, short event, void *e_loop) {
@@ -50,7 +50,8 @@ void EventLoop::Run() {
 
   // Set up our timer.
 	timeval tv;
-  evtimer_set(&timer_, RunEventTicks, this);
+  event_set(&timer_, -1, 0, RunEventTicks, this);
+  event_base_set(event_base_, &timer_);
 
 	evutil_timerclear(&tv);
 	tv.tv_sec = 0;
