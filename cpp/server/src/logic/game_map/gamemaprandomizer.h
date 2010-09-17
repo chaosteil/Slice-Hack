@@ -19,6 +19,8 @@ class GameMapRandomizer {
   void BuildFoundation();
   void GenerateDirt();
   void AddObjects();
+  void GenerateWater();
+  void AddWaterDirt();
   
   GameMapSectionManagerInterface *manager_;
   int width_, height_;

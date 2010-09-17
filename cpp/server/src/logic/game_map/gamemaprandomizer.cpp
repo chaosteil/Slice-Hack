@@ -31,8 +31,10 @@ void GameMapRandomizer::RandomizeTerrain(
   // 4. Add some objects
   AddObjects();
   // 5. Add water
+  GenerateWater();
   // 6. Add dirt roads
   // 7. Add dirt around water
+  AddWaterDirt();
   // 8. Add spawnpoint
   // 9. Fix corners
   // DONE
@@ -84,6 +86,92 @@ void GameMapRandomizer::AddObjects() {
     
     GameMapSection *section = manager_->GetSectionFromPosition(section_pos);
     section->SetTerrain(pos, terrain + 28);
+  }
+}
+
+void GameMapRandomizer::GenerateWater() {
+  boost::mt19937 gen;
+
+  int amount = width_ * height_;
+
+  for (int i = 0; i < amount; i++) {
+    // Find one center position
+    int x = gen() % (width_ * section_width_);
+    int y = gen() % (height_ * section_height_);
+
+    // Make 10 zones around this center
+    for (int j = 0; j < 10; j++) {
+      int margin = 8 - (gen() % 8) + 1;
+      int x_topleft = -(gen() % 8-margin) - 1;
+      int y_topleft = -(gen() % 8-margin) - 1;
+      int x_bottomright = gen() % margin + 1;
+      int y_bottomright = gen() % margin + 1;
+
+      for (int height = y_topleft; height < y_bottomright; height++) {
+        for (int width = x_topleft; width < x_bottomright; width++) {
+          Position section_pos(0, 0);
+          Position pos(x+width, y+height);
+          manager_->TranslatePosition(&section_pos, &pos);
+
+          GameMapSection *section =
+            manager_->GetSectionFromPosition(section_pos);
+
+          if (section == NULL) {
+            continue;
+          }
+
+          section->SetTerrain(pos, GameMapSection::kWater);
+        }
+      }
+    }
+  }
+}
+
+void GameMapRandomizer::AddWaterDirt() {
+  int total_height = height_ * section_height_;
+  int total_width = width_ * section_width_;
+
+  for (int y = 0; y < total_height; y++) {
+    for (int x = 0; x < total_width; x++) {
+      Position section_pos(0, 0);
+      Position pos(x, y);
+      manager_->TranslatePosition(&section_pos, &pos);
+
+      GameMapSection *section =
+        manager_->GetSectionFromPosition(section_pos);
+
+      int terrain_pos = pos.y() * section_width_ + pos.x();
+      char tile = section->terrain()[terrain_pos];
+
+      if (tile != GameMapSection::kWater) {
+        continue;
+      }
+
+      for (int i = -2; i < 3; i++) {
+        for (int j = -2; j < 3; j++ ){
+          Position dirt_section_pos(0, 0);
+          Position dirt_pos(x+i, y+j);
+          manager_->TranslatePosition(&dirt_section_pos, &dirt_pos);
+
+          section =
+            manager_->GetSectionFromPosition(dirt_section_pos);
+
+          if (section == NULL) {
+            continue;
+          }
+          
+          terrain_pos = dirt_pos.y() * section_width_ + dirt_pos.x();
+          tile = section->terrain()[terrain_pos];
+
+          if (tile == GameMapSection::kWater) {
+            continue;
+          }
+
+          section->SetTerrain(dirt_pos, GameMapSection::kDirt);
+
+        }
+      }
+    }
   }
 }
 
