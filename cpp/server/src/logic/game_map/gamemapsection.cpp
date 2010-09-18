@@ -155,18 +155,21 @@ entities::EntityPositionManagerInterface::Collision
   Position new_map_pos(pos);
   game_section_manager_->TranslatePosition(&new_section_pos, &new_map_pos);
 
+  // If it's on a different section, we call its collision detection instead
   if (position_ != new_section_pos) {
     GameMapSection *section =
       game_section_manager_->GetSectionFromPosition(new_section_pos);
     return section->CanWalk(pos);
   }
 
+  // If a tile is blocked, no entity can ever be there
   char tile = terrain_[pos.x() + pos.y() * width_];
   if ((tile >= kWater && tile < kDirt) ||
       (tile >= kStone && tile < kGrass_Small)) {
     return EntityPositionManagerInterface::kMapCollision;
   }
 
+  // If there are no entities, then there is no collision at all
   return GetEntitiesOnPosition(pos).size() == 0 ?
     EntityPositionManagerInterface::kEntityCollision :
     EntityPositionManagerInterface::kNoCollision;
