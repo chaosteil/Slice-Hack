@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "logic/game_map/gamemaprandomizer.h"
 
 #include <boost/random/mersenne_twister.hpp>
@@ -32,11 +33,13 @@ void GameMapRandomizer::RandomizeTerrain(
   AddObjects();
   // 5. Add water
   GenerateWater();
-  // 6. Add dirt roads
-  // 7. Add dirt around water
+  // 6. Add spawnpoint
+  AddSpawnpoint();
+  // 7. Add dirt roads
+  GenerateRoads();
+  // 8. Add dirt around water
   AddWaterDirt();
-  // 8. Add spawnpoint
-  // 9. Fix corners
+  // 9. Fix corners for water and dirt
   // DONE
 }
 
@@ -62,12 +65,7 @@ void GameMapRandomizer::GenerateDirt() {
     int x = gen() % (width_ * section_width_);
     int y = gen() % (height_ * section_height_);
 
-    Position section_pos(0, 0);
-    Position pos(x, y);
-    manager_->TranslatePosition(&section_pos, &pos);
-    
-    GameMapSection *section = manager_->GetSectionFromPosition(section_pos);
-    section->SetTerrain(pos, GameMapSection::kDirt);
+    DrawPoint(Position(x, y), GameMapSection::kDirt);
   }
 }
 
@@ -80,12 +78,7 @@ void GameMapRandomizer::AddObjects() {
     int y = gen() % (height_ * section_height_);
     int terrain = gen() % 5;
 
-    Position section_pos(0, 0);
-    Position pos(x, y);
-    manager_->TranslatePosition(&section_pos, &pos);
-    
-    GameMapSection *section = manager_->GetSectionFromPosition(section_pos);
-    section->SetTerrain(pos, terrain + 28);
+    DrawPoint(Position(x, y), terrain+28);
   }
 }
 
@@ -109,22 +102,38 @@ void GameMapRandomizer::GenerateWater() {
 
       for (int height = y_topleft; height < y_bottomright; height++) {
         for (int width = x_topleft; width < x_bottomright; width++) {
-          Position section_pos(0, 0);
-          Position pos(x+width, y+height);
-          manager_->TranslatePosition(&section_pos, &pos);
-
-          GameMapSection *section =
-            manager_->GetSectionFromPosition(section_pos);
-
-          if (section == NULL) {
-            continue;
-          }
-
-          section->SetTerrain(pos, GameMapSection::kWater);
+          DrawPoint(Position(x+width, y+height), GameMapSection::kWater);
         }
       }
     }
   }
+}
+
+void GameMapRandomizer::AddSpawnpoint() {
+  Position center((width_ * section_width_) / 2,
+                  (height_ * section_height_) / 2);
+  const int spawnpoint[11][11] = {
+    {  1,  1,  1,  1,  1, 15,  1,  1,  1,  1,  1},
+    {  1,  1,  1, 15, 15, 15, 15, 15,  1,  1,  1},
+    {  1,  1, 15, 15, 15, 15, 15, 15, 15,  1,  1},
+    {  1, 15, 15, 15, 15, 15, 15, 15, 15, 15,  1},
+    {  1, 15, 15, 15, 15, 15, 15, 15, 15, 15,  1},
+    { 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15},
+    {  1, 15, 15, 15, 15, 15, 15, 15, 15, 15,  1},
+    {  1, 15, 15, 15, 15, 15, 15, 15, 15, 15,  1},
+    {  1,  1, 15, 15, 15, 15, 15, 15, 15,  1,  1},
+    {  1,  1,  1, 15, 15, 15, 15, 15,  1,  1,  1},
+    {  1,  1,  1,  1,  1, 15,  1,  1,  1,  1,  1} };
+
+  for (int y = -5; y < 6; y++) {
+    for (int x = -5; x < 6; x++) {
+      DrawPoint(Position(center.x()+x, center.y()+y), spawnpoint[y+5][x+5]);
+    }
+  }
+}
+
+void GameMapRandomizer::GenerateRoads() {
+
 }
 
 void GameMapRandomizer::AddWaterDirt() {
@@ -173,6 +182,21 @@ void GameMapRandomizer::AddWaterDirt() {
       }
     }
   }
+}
+
+void GameMapRandomizer::DrawPoint(const Position &pos, char type) {
+  Position section_pos(0, 0);
+  Position tile_pos(pos);
+  manager_->TranslatePosition(&section_pos, &tile_pos);
+
+  GameMapSection *section =
+    manager_->GetSectionFromPosition(section_pos);
+
+  if (section == NULL) {
+    return;
+  }
+  
+  section->SetTerrain(tile_pos, type);
 }
 
 }  // namespace game_map

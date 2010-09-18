@@ -1,6 +1,8 @@
 #ifndef SLICE_HACK_LOGIC_GAME_MAP_GAMEMAPRANDOMIZER_H_
 #define SLICE_HACK_LOGIC_GAME_MAP_GAMEMAPRANDOMIZER_H_
 
+#include "logic/game_map/position.h"
+
 namespace slice_hack {
 namespace game_map {
 
@@ -20,7 +22,11 @@ class GameMapRandomizer {
   void GenerateDirt();
   void AddObjects();
   void GenerateWater();
+  void AddSpawnpoint();
+  void GenerateRoads();
   void AddWaterDirt();
+
+  void DrawPoint(const Position &pos, char type);
   
   GameMapSectionManagerInterface *manager_;
   int width_, height_;
