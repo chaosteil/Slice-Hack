@@ -128,5 +128,10 @@ Position GameMap::GetEntityPosition(entities::Entity *entity) {
   return section->position();
 }
 
+entities::EntityPositionManagerInterface::Collision
+    GameMap::CanWalk(const Position &position) {
+  return EntityPositionManagerInterface::kNoCollision;
+}
+
 }  // namespace game_map
 }  // namespace slice_hack

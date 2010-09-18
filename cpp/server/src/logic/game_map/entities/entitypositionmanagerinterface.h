@@ -11,6 +11,12 @@ class Entity;
 
 class EntityPositionManagerInterface {
  public:
+  enum Collision {
+    kNoCollision = 0,
+    kEntityCollision = 1,
+    kMapCollision = 2
+  };
+
   virtual ~EntityPositionManagerInterface() {}
   
   // Returns the new manager of the entity. Switching positions
@@ -22,6 +28,7 @@ class EntityPositionManagerInterface {
   // Must get the position relative to the current level deepness of
   // the manager.
   virtual Position GetEntityPosition(Entity *entity) = 0;
+  virtual Collision CanWalk(const Position &position) = 0;
 
  protected:
   EntityPositionManagerInterface() {}

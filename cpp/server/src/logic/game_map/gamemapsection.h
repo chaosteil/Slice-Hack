@@ -78,6 +78,8 @@ class GameMapSection : public EventTickInterface,
     const Position &position);
   virtual void RemoveEntity(entities::Entity *entity);
   virtual Position GetEntityPosition(entities::Entity *entity);
+  virtual entities::EntityPositionManagerInterface::Collision
+      CanWalk(const Position &position);
 
  private:
   const Position position_;

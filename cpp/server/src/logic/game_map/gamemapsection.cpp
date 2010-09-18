@@ -149,5 +149,28 @@ Position GameMapSection::GetEntityPosition(entities::Entity *entity) {
   return entities_[entity];
 }
 
+entities::EntityPositionManagerInterface::Collision
+    GameMapSection::CanWalk(const Position &pos) {
+  Position new_section_pos(position_); 
+  Position new_map_pos(pos);
+  game_section_manager_->TranslatePosition(&new_section_pos, &new_map_pos);
+
+  if (position_ != new_section_pos) {
+    GameMapSection *section =
+      game_section_manager_->GetSectionFromPosition(new_section_pos);
+    return section->CanWalk(pos);
+  }
+
+  char tile = terrain_[pos.x() + pos.y() * width_];
+  if ((tile >= kWater && tile < kDirt) ||
+      (tile >= kStone && tile < kGrass_Small)) {
+    return EntityPositionManagerInterface::kMapCollision;
+  }
+
+  return GetEntitiesOnPosition(pos).size() == 0 ?
+    EntityPositionManagerInterface::kEntityCollision :
+    EntityPositionManagerInterface::kNoCollision;
+}
+
 }  // namespace game_map
 }  // namespace slice_hack
