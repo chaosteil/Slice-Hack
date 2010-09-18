@@ -133,7 +133,62 @@ void GameMapRandomizer::AddSpawnpoint() {
 }
 
 void GameMapRandomizer::GenerateRoads() {
+  boost::mt19937 gen;
 
+  int amount = 10;
+  int branches = 20;
+
+  // Generate 4 roads starting from the spawnpoint
+  for (int i = 0; i < amount; i++) {
+    Position pos(width_ * section_width_ / 2, height_ * section_height_ / 2);
+    // This is the main direction we are excluding
+    int main_dir = gen() % 4;
+    for (int j = 0; j < branches; j++) {
+      int direction = gen() % 4;
+
+      // Is direction the one we are excluding?
+      if (main_dir == direction) {
+        direction = (direction + 1) % 4;
+      }
+
+      int newpos_x = pos.x();
+      int newpos_y = pos.y();
+
+      if (direction == 0) {
+        newpos_x += 8;
+        while (pos.x() != newpos_x) {
+          for (int k = -1; k <= 1; k++){
+            DrawPoint(Position(pos.x(), newpos_y+k), GameMapSection::kDirt);
+          }
+          pos.set_x(pos.x() + 1);
+        }
+      } else if (direction == 1) {
+        newpos_x -= 8;
+        while (pos.x() != newpos_x) {
+          for (int k = -1; k <= 1; k++){
+            DrawPoint(Position(pos.x(), newpos_y+k), GameMapSection::kDirt);
+          }
+          pos.set_x(pos.x() - 1);
+        }
+      } else if (direction == 2) {
+        newpos_y += 8;
+        while (pos.y() != newpos_y) {
+          for (int k = -1; k <= 1; k++){
+            DrawPoint(Position(newpos_x+k, pos.y()), GameMapSection::kDirt);
+          }
+          pos.set_y(pos.y() + 1);
+        }
+      } else if (direction == 3) {
+        newpos_y -= 8;
+        while (pos.y() != newpos_y) {
+          for (int k = -1; k <= 1; k++){
+            DrawPoint(Position(newpos_x+k, pos.y()), GameMapSection::kDirt);
+          }
+          pos.set_y(pos.y() - 1);
+        }
+      }
+    }
+  }
 }
 
 void GameMapRandomizer::AddWaterDirt() {
@@ -177,7 +232,6 @@ void GameMapRandomizer::AddWaterDirt() {
           }
 
           section->SetTerrain(dirt_pos, GameMapSection::kDirt);
-
         }
       }
     }
