@@ -27,6 +27,7 @@ class GameMapRandomizer {
   void AddWaterDirt();
 
   void DrawPoint(const Position &pos, char type);
+  char GetPoint(const Position &pos);
   
   GameMapSectionManagerInterface *manager_;
   int width_, height_;
