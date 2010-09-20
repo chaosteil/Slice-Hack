@@ -7,11 +7,11 @@
 
 namespace signal_handlers {
 
-typedef struct SignalData_ {
+struct SignalData {
   slice_hack::EventLoop *event_loop;
-} SignalData;
+};
 
-SignalData sig_data;
+static SignalData sig_data;
 
 void Init(slice_hack::EventLoop *event_loop) {
   struct sigaction sig_int;
