@@ -63,7 +63,8 @@ am_slicehack_OBJECTS = main.$(OBJEXT) signal_handlers.$(OBJEXT) \
 	logic/game_map/entities/entitymanager.$(OBJEXT) \
 	logic/game_map/entities/health.$(OBJEXT) \
 	logic/game_map/entities/inventory/item.$(OBJEXT) \
-	logic/game_map/entities/inventory/itemslot.$(OBJEXT)
+	logic/game_map/entities/inventory/itemslot.$(OBJEXT) \
+	network/server.$(OBJEXT)
 slicehack_OBJECTS = $(am_slicehack_OBJECTS)
 am__DEPENDENCIES_1 =
 slicehack_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -195,7 +196,9 @@ slicehack_SOURCES = \
 	logic/game_map/entities/health.cpp \
 	\
 	logic/game_map/entities/inventory/item.cpp \
-	logic/game_map/entities/inventory/itemslot.cpp
+	logic/game_map/entities/inventory/itemslot.cpp \
+	\
+	network/server.cpp
 
 all: all-am
 
@@ -343,6 +346,14 @@ logic/game_map/entities/inventory/item.$(OBJEXT):  \
 logic/game_map/entities/inventory/itemslot.$(OBJEXT):  \
 	logic/game_map/entities/inventory/$(am__dirstamp) \
 	logic/game_map/entities/inventory/$(DEPDIR)/$(am__dirstamp)
+network/$(am__dirstamp):
+	@$(MKDIR_P) network
+	@: > network/$(am__dirstamp)
+network/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) network/$(DEPDIR)
+	@: > network/$(DEPDIR)/$(am__dirstamp)
+network/server.$(OBJEXT): network/$(am__dirstamp) \
+	network/$(DEPDIR)/$(am__dirstamp)
 slicehack$(EXEEXT): $(slicehack_OBJECTS) $(slicehack_DEPENDENCIES) 
 	@rm -f slicehack$(EXEEXT)
 	$(CXXLINK) $(slicehack_OBJECTS) $(slicehack_LDADD) $(LIBS)
@@ -367,6 +378,7 @@ mostlyclean-compile:
 	-rm -f logic/game_map/gamemaprandomizer.$(OBJEXT)
 	-rm -f logic/game_map/gamemapsection.$(OBJEXT)
 	-rm -f logic/game_map/position.$(OBJEXT)
+	-rm -f network/server.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -391,6 +403,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/player.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/inventory/$(DEPDIR)/item.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/inventory/$(DEPDIR)/itemslot.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@network/$(DEPDIR)/server.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -528,6 +541,8 @@ distclean-generic:
 	-rm -f logic/game_map/entities/$(am__dirstamp)
 	-rm -f logic/game_map/entities/inventory/$(DEPDIR)/$(am__dirstamp)
 	-rm -f logic/game_map/entities/inventory/$(am__dirstamp)
+	-rm -f network/$(DEPDIR)/$(am__dirstamp)
+	-rm -f network/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -537,7 +552,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR) network/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -583,7 +598,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR) network/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

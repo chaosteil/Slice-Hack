@@ -12,10 +12,30 @@ EventLoop::~EventLoop() {
   event_base_free(event_base_);
 }
 
-void EventLoop::AddEvent() {}
+void EventLoop::AddFileEvent(int fd, EventHandlerInterface *event_handler) {
+  event * file_event = new event(); 
+
+  event_set(file_event, fd, EV_READ | EV_WRITE, HandleFileEvent, event_handler);
+  event_base_set(event_base_, file_event);
+
+  file_events_[fd] = file_event;
+
+  event_add(file_event, NULL);
+}
 
 void EventLoop::AddEventTick(EventTickInterface *event_tick_interface) {
   event_ticks_.push_back(event_tick_interface);
+}
+
+void EventLoop::RemoveFileEvent(int fd) {
+  if (file_events_.find(fd) == file_events_.end()) {
+    return;
+  }
+
+  event *file_event = file_events_[fd];
+  file_events_.erase(fd);
+
+  event_del(file_event);
 }
 
 void EventLoop::Start(int fps) {
@@ -38,6 +58,24 @@ void EventLoop::RunEventTicks(int fd, short event, void *e_loop) {
   EventLoop *event_loop = static_cast<EventLoop*>(e_loop);
   
   event_loop->Run(); 
+}
+
+void EventLoop::HandleFileEvent(int fd, short event, void *e_handler) {
+  EventHandlerInterface *event_handler =
+    static_cast<EventHandlerInterface*>(e_handler);
+
+  EventHandlerInterface::FileEventType type = EventHandlerInterface::kNone;
+  if (event == EV_TIMEOUT) {
+    type = EventHandlerInterface::kTimeout;
+  } else if (event == EV_SIGNAL) {
+    type = EventHandlerInterface::kSignal;
+  } else if (event == EV_READ) {
+    type = EventHandlerInterface::kRead;
+  } else if (event == EV_WRITE) {
+    type = EventHandlerInterface::kWrite;
+  }
+
+  event_handler->HandleEvent(fd, type);
 }
 
 void EventLoop::Run() {

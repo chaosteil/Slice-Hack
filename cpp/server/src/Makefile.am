@@ -28,4 +28,6 @@ slicehack_SOURCES = \
 	logic/game_map/entities/health.cpp \
 	\
 	logic/game_map/entities/inventory/item.cpp \
-	logic/game_map/entities/inventory/itemslot.cpp
+	logic/game_map/entities/inventory/itemslot.cpp \
+	\
+	network/server.cpp
