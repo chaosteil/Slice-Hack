@@ -5,6 +5,7 @@
 #include "signal_handlers.h"
 #include "logic/game.h"
 #include "logic/eventloop.h"
+#include "network/server.h"
 
 int main(int argc, const char **argv) {
   // Seed the global random number generator
@@ -17,6 +18,10 @@ int main(int argc, const char **argv) {
 
   event_loop->AddEventTick(game);
 
+  // Start up network
+  slice_hack::network::Server *server = new slice_hack::network::Server();
+  server->StartListen(4321, 100, event_loop);
+
   // Enable our signal handlers before running
   signal_handlers::Init(event_loop);
   
@@ -27,6 +32,8 @@ int main(int argc, const char **argv) {
 
   std::cout << "Quitting game..." << std::endl;
 
+  server->StopListen();
+  delete server;
   delete game;
   delete event_loop;
 

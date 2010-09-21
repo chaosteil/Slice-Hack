@@ -1,10 +1,13 @@
 #ifndef SLICE_HACK_NETWORK_SERVER_H_
 #define SLICE_HACK_NETWORK_SERVER_H_
 
+#include <map>
 #include "logic/eventloop.h"
 
 namespace slice_hack {
 namespace network {
+
+class Client;
 
 class Server : public EventHandlerInterface {
  public:
@@ -15,6 +18,10 @@ class Server : public EventHandlerInterface {
   void StopListen();
 
   void HandleEvent(int fd, FileEventType event);
+
+ private:
+  int listen_fd_;
+  std::map<int, Client*> clients_;
 };
 
 }  // namespace network

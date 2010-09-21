@@ -1,11 +1,12 @@
 #include "network/server.h"
 
-#include "logic/eventloop.h"
+#include "network/client.h"
 
 namespace slice_hack {
 namespace network {
 
-Server::Server() : EventHandlerInterface() {}
+Server::Server() : EventHandlerInterface(), listen_fd_(0) {}
+
 Server::~Server() {}
 
 bool Server::StartListen(int port, int max_connections,
