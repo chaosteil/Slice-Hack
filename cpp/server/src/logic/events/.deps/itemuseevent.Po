@@ -1,0 +1,9 @@
+logic/events/itemuseevent.o: logic/events/itemuseevent.cpp \
+ logic/events/itemuseevent.h logic/events/event.h \
+ logic/events/eventvisitorinterface.h
+
+logic/events/itemuseevent.h:
+
+logic/events/event.h:
+
+logic/events/eventvisitorinterface.h:

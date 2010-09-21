@@ -1,0 +1,9 @@
+logic/events/chatevent.o: logic/events/chatevent.cpp \
+ logic/events/chatevent.h logic/events/event.h \
+ logic/events/eventvisitorinterface.h
+
+logic/events/chatevent.h:
+
+logic/events/event.h:
+
+logic/events/eventvisitorinterface.h:

@@ -22,12 +22,9 @@ GameMapSection::GameMapSection(const Position &position,
       entity_pos_manager_(epm),
       terrain_(new char[width_ * height_]) {
 
-  for (int i = 0; i < width_ * height_; i++) {
-    if (i < width_ || i % width_ == 0) {
-      terrain_[i] = 'X';
-    } else {
-      terrain_[i] = ',';
-    }
+  int total_size = width_ * height_;
+  for (int i = 0; i < total_size; i++) {
+    terrain_[i] = kNothing;
   }
 }
 

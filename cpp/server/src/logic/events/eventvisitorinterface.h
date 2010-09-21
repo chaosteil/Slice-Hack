@@ -4,14 +4,20 @@
 namespace slice_hack {
 namespace events {
 
-// class SomeEvent;
+class AttackEvent;
+class ChatEvent;
+class ItemUseEvent;
+class MoveEvent;
 
 class EventVisitorInterface {
  public:
   EventVisitorInterface() {}
   virtual ~EventVisitorInterface() {}
 
-  // virtual void visit(SomeEvent) = 0;
+  virtual void Visit(AttackEvent *attack_event) = 0;
+  virtual void Visit(ChatEvent *chat_event) = 0;
+  virtual void Visit(ItemUseEvent *itemuse_event) = 0;
+  virtual void Visit(MoveEvent *move_event) = 0;
 };
 
 }  // namespace events 

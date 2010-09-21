@@ -1,0 +1,3 @@
+logic/events/event.o: logic/events/event.cpp logic/events/event.h
+
+logic/events/event.h:

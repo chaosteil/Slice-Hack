@@ -11,6 +11,10 @@ slicehack_SOURCES = \
 	logic/eventloop.cpp \
 	\
 	logic/events/event.cpp \
+	logic/events/attackevent.cpp \
+	logic/events/chatevent.cpp \
+	logic/events/itemuseevent.cpp \
+	logic/events/moveevent.cpp \
 	\
 	logic/game_map/gamemap.cpp \
 	logic/game_map/gamemapsection.cpp \

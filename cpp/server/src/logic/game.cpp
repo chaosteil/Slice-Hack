@@ -5,6 +5,11 @@
 #include "logic/game_map/gamemap.h"
 #include "logic/events/event.h"
 
+#include "logic/events/attackevent.h"
+#include "logic/events/chatevent.h"
+#include "logic/events/itemuseevent.h"
+#include "logic/events/moveevent.h"
+
 namespace slice_hack {
 
 Game::Game()
@@ -35,6 +40,18 @@ void Game::Run() {
 
   // 2. Run NPC logic.
   map_->Run();
+}
+
+void Game::Visit(events::AttackEvent *attack_event) {
+}
+
+void Game::Visit(events::ChatEvent *attack_event) {
+}
+
+void Game::Visit(events::ItemUseEvent *itemuse_event) {
+}
+
+void Game::Visit(events::MoveEvent *move_event) {
 }
 
 }  // namespace slice_hack

@@ -24,6 +24,11 @@ class Game : public events::EventVisitorInterface,
 
   virtual void AddEvent(events::Event *event);
   virtual void Run();
+
+  virtual void Visit(events::AttackEvent *attack_event);
+  virtual void Visit(events::ChatEvent *chat_event);
+  virtual void Visit(events::ItemUseEvent *itemuse_event);
+  virtual void Visit(events::MoveEvent *move_event);
  
  private:
   std::queue<events::Event*> events_;
