@@ -1,15 +1,15 @@
-#include "logic/events/chatevent.h"
+#include "logic/events/enterevent.h"
 
 #include "logic/events/eventvisitorinterface.h"
 
 namespace slice_hack {
 namespace events {
 
-ChatEvent::~ChatEvent() {}
+EnterEvent::~EnterEvent() {}
 
-ChatEvent::ChatEvent() : Event(true) {}
+EnterEvent::EnterEvent() : Event(true) {}
 
-void ChatEvent::Accept(EventVisitorInterface *event_visitor) {
+void EnterEvent::Accept(EventVisitorInterface *event_visitor) {
   event_visitor->Visit(this);
 }
 

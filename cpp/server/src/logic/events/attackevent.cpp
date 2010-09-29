@@ -7,7 +7,7 @@ namespace events {
 
 AttackEvent::~AttackEvent() {}
 
-AttackEvent::AttackEvent() {}
+AttackEvent::AttackEvent() : Event(false) {}
 
 void AttackEvent::Accept(EventVisitorInterface *event_visitor) {
   event_visitor->Visit(this);

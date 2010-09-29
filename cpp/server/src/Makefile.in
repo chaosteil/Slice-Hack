@@ -64,7 +64,7 @@ am_slicehack_OBJECTS = main.$(OBJEXT) signal_handlers.$(OBJEXT) \
 	logic/game_map/entities/health.$(OBJEXT) \
 	logic/game_map/entities/inventory/item.$(OBJEXT) \
 	logic/game_map/entities/inventory/itemslot.$(OBJEXT) \
-	network/server.$(OBJEXT)
+	network/server.$(OBJEXT) network/client.$(OBJEXT)
 slicehack_OBJECTS = $(am_slicehack_OBJECTS)
 am__DEPENDENCIES_1 =
 slicehack_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -198,7 +198,8 @@ slicehack_SOURCES = \
 	logic/game_map/entities/inventory/item.cpp \
 	logic/game_map/entities/inventory/itemslot.cpp \
 	\
-	network/server.cpp
+	network/server.cpp \
+	network/client.cpp
 
 all: all-am
 
@@ -354,6 +355,8 @@ network/$(DEPDIR)/$(am__dirstamp):
 	@: > network/$(DEPDIR)/$(am__dirstamp)
 network/server.$(OBJEXT): network/$(am__dirstamp) \
 	network/$(DEPDIR)/$(am__dirstamp)
+network/client.$(OBJEXT): network/$(am__dirstamp) \
+	network/$(DEPDIR)/$(am__dirstamp)
 slicehack$(EXEEXT): $(slicehack_OBJECTS) $(slicehack_DEPENDENCIES) 
 	@rm -f slicehack$(EXEEXT)
 	$(CXXLINK) $(slicehack_OBJECTS) $(slicehack_LDADD) $(LIBS)
@@ -378,6 +381,7 @@ mostlyclean-compile:
 	-rm -f logic/game_map/gamemaprandomizer.$(OBJEXT)
 	-rm -f logic/game_map/gamemapsection.$(OBJEXT)
 	-rm -f logic/game_map/position.$(OBJEXT)
+	-rm -f network/client.$(OBJEXT)
 	-rm -f network/server.$(OBJEXT)
 
 distclean-compile:
@@ -403,6 +407,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/$(DEPDIR)/player.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/inventory/$(DEPDIR)/item.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/entities/inventory/$(DEPDIR)/itemslot.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@network/$(DEPDIR)/client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@network/$(DEPDIR)/server.Po@am__quote@
 
 .cpp.o:

@@ -27,7 +27,9 @@ class Game : public events::EventVisitorInterface,
 
   virtual void Visit(events::AttackEvent *attack_event);
   virtual void Visit(events::ChatEvent *chat_event);
+  virtual void Visit(events::EnterEvent *enter_event);
   virtual void Visit(events::ItemUseEvent *itemuse_event);
+  virtual void Visit(events::LeaveEvent *leave_event);
   virtual void Visit(events::MoveEvent *move_event);
  
  private:

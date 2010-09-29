@@ -20,7 +20,11 @@ int main(int argc, const char **argv) {
 
   // Start up network
   slice_hack::network::Server *server = new slice_hack::network::Server();
-  server->StartListen(4321, 100, event_loop);
+  if (!server->StartListen(4321, 100, event_loop)) {
+    // Error!
+    std::cout << "Could not start listening." << std::endl;
+    return 1;
+  }
 
   // Enable our signal handlers before running
   signal_handlers::Init(event_loop);

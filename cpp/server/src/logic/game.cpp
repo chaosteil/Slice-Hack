@@ -16,7 +16,7 @@ Game::Game()
     : events::EventVisitorInterface(),
       EventTickInterface(),
       // TODO(Chaosteil): Get values from settings
-      map_(new game_map::GameMap(10, 10, 20, 15)) {}
+      map_(new game_map::GameMap(10, 10, 20, 20)) {}
 
 Game::~Game() {
   delete map_;
@@ -42,16 +42,16 @@ void Game::Run() {
   map_->Run();
 }
 
-void Game::Visit(events::AttackEvent *attack_event) {
-}
+void Game::Visit(events::AttackEvent *attack_event) {}
 
-void Game::Visit(events::ChatEvent *attack_event) {
-}
+void Game::Visit(events::ChatEvent *attack_event) {}
 
-void Game::Visit(events::ItemUseEvent *itemuse_event) {
-}
+void Game::Visit(events::EnterEvent *enter_event) {}
 
-void Game::Visit(events::MoveEvent *move_event) {
-}
+void Game::Visit(events::ItemUseEvent *itemuse_event) {}
+
+void Game::Visit(events::LeaveEvent *leave_event) {}
+
+void Game::Visit(events::MoveEvent *move_event) {}
 
 }  // namespace slice_hack

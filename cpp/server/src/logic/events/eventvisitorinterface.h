@@ -6,7 +6,9 @@ namespace events {
 
 class AttackEvent;
 class ChatEvent;
+class EnterEvent;
 class ItemUseEvent;
+class LeaveEvent;
 class MoveEvent;
 
 class EventVisitorInterface {
@@ -16,7 +18,9 @@ class EventVisitorInterface {
 
   virtual void Visit(AttackEvent *attack_event) = 0;
   virtual void Visit(ChatEvent *chat_event) = 0;
+  virtual void Visit(EnterEvent *enter_event) = 0;
   virtual void Visit(ItemUseEvent *itemuse_event) = 0;
+  virtual void Visit(LeaveEvent *leave_event) = 0;
   virtual void Visit(MoveEvent *move_event) = 0;
 };
 

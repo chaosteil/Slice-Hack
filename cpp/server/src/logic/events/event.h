@@ -13,8 +13,13 @@ class Event {
 
   virtual void Accept(EventVisitorInterface *event_visitor) = 0;
 
+  bool global() const;
+
  protected:
-  Event();
+  explicit Event(bool global);
+
+ private:
+  bool global_;
 };
 
 }  // namespace events 

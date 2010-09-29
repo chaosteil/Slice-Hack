@@ -5,7 +5,11 @@ namespace events {
 
 Event::~Event() {}
 
-Event::Event() {}
+bool Event::global() const {
+  return global_;
+}
+
+Event::Event(bool global) : global_(global) {}
 
 }  // namespace events 
 }  // namespace slice_hack

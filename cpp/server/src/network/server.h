@@ -9,6 +9,7 @@ namespace network {
 
 class Client;
 
+// Manages connections
 class Server : public EventHandlerInterface {
  public:
   Server();
@@ -18,6 +19,8 @@ class Server : public EventHandlerInterface {
   void StopListen();
 
   void HandleEvent(int fd, FileEventType event);
+
+  void Disconnect(Client *client);
 
  private:
   int listen_fd_;

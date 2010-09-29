@@ -7,7 +7,7 @@ namespace events {
 
 ItemUseEvent::~ItemUseEvent() {}
 
-ItemUseEvent::ItemUseEvent() {}
+ItemUseEvent::ItemUseEvent() : Event(false) {}
 
 void ItemUseEvent::Accept(EventVisitorInterface *event_visitor) {
   event_visitor->Visit(this);
