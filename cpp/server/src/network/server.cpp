@@ -8,12 +8,16 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include "network/client.h"
 
 namespace slice_hack {
 namespace network {
 
-Server::Server() : EventHandlerInterface(), listen_fd_(0) {}
+Server::Server()
+    : EventHandlerInterface(),
+      listen_fd_(0),
+      event_loop_(NULL) {}
 
 Server::~Server() {}
 
@@ -61,24 +65,53 @@ bool Server::StartListen(int port, int max_connections,
   listen_fd_ = sockfd;
 
   event_loop->AddFileEvent(listen_fd_, this);
+  event_loop_ = event_loop;
+
   return true;
 }
 
 void Server::StopListen() {}
 
 void Server::HandleEvent(int fd, FileEventType event) {
+  std::cout << "[" << fd << "," << (int)event << "]" << std::endl;
   if (fd == listen_fd_) {
     // TODO(Chaosteil): Do server stuff (Accept)
+    AcceptClient();
   } else {
     Client *client = clients_[fd];
 
     if (client == NULL) {
       return;
     }
+
+    char buf[256];
+    int received = recv(fd, buf, sizeof(buf)-1, 0);
+
+    if (received <= 0) {
+      close (fd);
+      event_loop_->RemoveFileEvent(fd);
+    } else {
+      buf[received+1] = '\0';
+
+      std::cout << received << " " << buf << std::endl;
+    } 
   }
 }
 
-void Server::Disconnect(Client *client) {
+void Server::Disconnect(Client *client) {}
+
+void Server::AcceptClient() {
+  sockaddr_storage address;
+  socklen_t address_size = sizeof(address);
+
+  int client_fd = accept(listen_fd_, (sockaddr *)&address, &address_size);
+
+  Client *client = new Client(client_fd);
+
+  clients_[client_fd] = client;
+  event_loop_->AddFileEvent(client_fd, this);
+
+  std::cout << "Accepted client on " << client_fd << ::std::endl;
 }
 
 }  // namespace network

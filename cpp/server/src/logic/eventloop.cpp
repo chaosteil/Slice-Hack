@@ -15,7 +15,8 @@ EventLoop::~EventLoop() {
 void EventLoop::AddFileEvent(int fd, EventHandlerInterface *event_handler) {
   event * file_event = new event(); 
 
-  event_set(file_event, fd, EV_READ | EV_WRITE, HandleFileEvent, event_handler);
+  event_set(file_event, fd, EV_READ | EV_PERSIST,
+            HandleFileEvent, event_handler);
   event_base_set(event_base_, file_event);
 
   file_events_[fd] = file_event;

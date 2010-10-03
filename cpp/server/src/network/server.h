@@ -23,6 +23,9 @@ class Server : public EventHandlerInterface {
   void Disconnect(Client *client);
 
  private:
+  void AcceptClient();
+
+  EventLoop *event_loop_;
   int listen_fd_;
   std::map<int, Client*> clients_;
 };
