@@ -5,6 +5,7 @@
 #include "signal_handlers.h"
 #include "logic/game.h"
 #include "logic/eventloop.h"
+#include "logic/playermanager.h"
 #include "network/server.h"
 
 int main(int argc, const char **argv) {
@@ -15,12 +16,13 @@ int main(int argc, const char **argv) {
   // Start up game and logic
   slice_hack::EventLoop *event_loop = new slice_hack::EventLoop();
   slice_hack::Game *game = new slice_hack::Game();
+  slice_hack::PlayerManager *player_manager = new slice_hack::PlayerManager();
 
   event_loop->AddEventTick(game);
 
   // Start up network
   slice_hack::network::Server *server = new slice_hack::network::Server();
-  if (!server->StartListen(4321, 100, NULL, event_loop)) {
+  if (!server->StartListen(4321, 100, player_manager, event_loop)) {
     // Error!
     std::cout << "Could not start listening." << std::endl;
     return 1;

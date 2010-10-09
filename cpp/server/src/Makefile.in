@@ -48,7 +48,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_slicehack_OBJECTS = main.$(OBJEXT) signal_handlers.$(OBJEXT) \
 	logic/game.$(OBJEXT) logic/eventloop.$(OBJEXT) \
-	logic/events/event.$(OBJEXT) \
+	logic/playermanager.$(OBJEXT) logic/events/event.$(OBJEXT) \
 	logic/events/attackevent.$(OBJEXT) \
 	logic/events/chatevent.$(OBJEXT) \
 	logic/events/itemuseevent.$(OBJEXT) \
@@ -177,6 +177,7 @@ slicehack_SOURCES = \
 	\
 	logic/game.cpp \
 	logic/eventloop.cpp \
+	logic/playermanager.cpp \
 	\
 	logic/events/event.cpp \
 	logic/events/attackevent.cpp \
@@ -282,6 +283,8 @@ logic/game.$(OBJEXT): logic/$(am__dirstamp) \
 	logic/$(DEPDIR)/$(am__dirstamp)
 logic/eventloop.$(OBJEXT): logic/$(am__dirstamp) \
 	logic/$(DEPDIR)/$(am__dirstamp)
+logic/playermanager.$(OBJEXT): logic/$(am__dirstamp) \
+	logic/$(DEPDIR)/$(am__dirstamp)
 logic/events/$(am__dirstamp):
 	@$(MKDIR_P) logic/events
 	@: > logic/events/$(am__dirstamp)
@@ -381,6 +384,7 @@ mostlyclean-compile:
 	-rm -f logic/game_map/gamemaprandomizer.$(OBJEXT)
 	-rm -f logic/game_map/gamemapsection.$(OBJEXT)
 	-rm -f logic/game_map/position.$(OBJEXT)
+	-rm -f logic/playermanager.$(OBJEXT)
 	-rm -f network/client.$(OBJEXT)
 	-rm -f network/server.$(OBJEXT)
 
@@ -391,6 +395,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/signal_handlers.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/eventloop.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/game.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/$(DEPDIR)/playermanager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/attackevent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/chatevent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/event.Po@am__quote@

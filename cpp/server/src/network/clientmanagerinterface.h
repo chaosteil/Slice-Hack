@@ -4,6 +4,8 @@
 namespace slice_hack {
 namespace network {
 
+class Client;
+
 class ClientManagerInterface {
  public:
   enum HandleData {

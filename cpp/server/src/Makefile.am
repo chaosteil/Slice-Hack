@@ -9,6 +9,7 @@ slicehack_SOURCES = \
 	\
 	logic/game.cpp \
 	logic/eventloop.cpp \
+	logic/playermanager.cpp \
 	\
 	logic/events/event.cpp \
 	logic/events/attackevent.cpp \
