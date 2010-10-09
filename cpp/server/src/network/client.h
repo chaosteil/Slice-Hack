@@ -8,8 +8,6 @@ namespace messages {
 class SendMessageInterface;
 }  // namespace messages
 
-class ClientManagerInterface;
-
 class Client {
  public:
   Client(int fd);

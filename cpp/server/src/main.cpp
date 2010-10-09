@@ -20,7 +20,7 @@ int main(int argc, const char **argv) {
 
   // Start up network
   slice_hack::network::Server *server = new slice_hack::network::Server();
-  if (!server->StartListen(4321, 100, event_loop)) {
+  if (!server->StartListen(4321, 100, NULL, event_loop)) {
     // Error!
     std::cout << "Could not start listening." << std::endl;
     return 1;

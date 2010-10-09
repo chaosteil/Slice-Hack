@@ -37,6 +37,8 @@ void EventLoop::RemoveFileEvent(int fd) {
   file_events_.erase(fd);
 
   event_del(file_event);
+
+  delete file_event;
 }
 
 void EventLoop::Start(int fps) {

@@ -1,4 +1,5 @@
 #include "network/server.h"
+#include "network/clientmanagerinterface.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -9,6 +10,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <boost/foreach.hpp>
 #include "network/client.h"
 
 namespace slice_hack {
@@ -17,11 +19,16 @@ namespace network {
 Server::Server()
     : EventHandlerInterface(),
       listen_fd_(0),
-      event_loop_(NULL) {}
+      event_loop_(NULL),
+      client_manager_(NULL) {}
 
-Server::~Server() {}
+Server::~Server() {
+  StopListen();
+  DisconnectAllClients();
+}
 
 bool Server::StartListen(int port, int max_connections,
+                         ClientManagerInterface *client_manager,
                          EventLoop *event_loop) {
   addrinfo hints, *servinfo, *p;
   memset(&hints, 0, sizeof(hints));
@@ -29,9 +36,7 @@ bool Server::StartListen(int port, int max_connections,
   hints.ai_socktype = SOCK_STREAM;
   hints.ai_flags = AI_PASSIVE;
 
-  char real_port[10];
-  sprintf(real_port, "%u", port);
-
+  char real_port[10]; sprintf(real_port, "%u", port); 
   getaddrinfo(NULL, real_port, &hints, &servinfo);
   
   int sockfd;
@@ -54,6 +59,8 @@ bool Server::StartListen(int port, int max_connections,
     break;
   }
 
+  freeaddrinfo(servinfo);
+
   if (p == NULL) {
     return false;
   }
@@ -67,15 +74,20 @@ bool Server::StartListen(int port, int max_connections,
   event_loop->AddFileEvent(listen_fd_, this);
   event_loop_ = event_loop;
 
+  client_manager_ = client_manager;
+
   return true;
 }
 
-void Server::StopListen() {}
+void Server::StopListen() {
+  event_loop_->RemoveFileEvent(listen_fd_);
+  close(listen_fd_);
+}
 
 void Server::HandleEvent(int fd, FileEventType event) {
   std::cout << "[" << fd << "," << (int)event << "]" << std::endl;
+
   if (fd == listen_fd_) {
-    // TODO(Chaosteil): Do server stuff (Accept)
     AcceptClient();
   } else {
     Client *client = clients_[fd];
@@ -84,21 +96,46 @@ void Server::HandleEvent(int fd, FileEventType event) {
       return;
     }
 
-    char buf[256];
+    char buf[256] = "";
     int received = recv(fd, buf, sizeof(buf)-1, 0);
 
     if (received <= 0) {
-      close (fd);
-      event_loop_->RemoveFileEvent(fd);
+      Disconnect(client);
     } else {
       buf[received+1] = '\0';
 
       std::cout << received << " " << buf << std::endl;
+
+      if (client_manager_) {
+        client_manager_->HandleBuffer(client, buf, received);
+      }
     } 
   }
 }
 
-void Server::Disconnect(Client *client) {}
+void Server::Disconnect(Client *client) {
+  int fd = client->fd();
+  std::cout << fd << " disconnected" << std::endl;
+
+  if (client_manager_) {
+    client_manager_->RemoveClient(client);
+  }
+
+  close(fd);
+  event_loop_->RemoveFileEvent(fd);
+
+  clients_.erase(fd);
+
+  delete client;
+}
+
+void Server::DisconnectAllClients() {
+  while (clients_.size() != 0) {
+    Disconnect(clients_.begin()->second);
+  }
+
+  clients_.clear();
+}
 
 void Server::AcceptClient() {
   sockaddr_storage address;
@@ -112,6 +149,10 @@ void Server::AcceptClient() {
   event_loop_->AddFileEvent(client_fd, this);
 
   std::cout << "Accepted client on " << client_fd << ::std::endl;
+
+  if (client_manager_) {
+    client_manager_->AddClient(client);
+  }
 }
 
 }  // namespace network
