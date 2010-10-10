@@ -6,6 +6,7 @@
 #include "logic/game.h"
 #include "logic/eventloop.h"
 #include "logic/playermanager.h"
+#include "logic/game_map/entities/entitymanager.h"
 #include "network/server.h"
 
 int main(int argc, const char **argv) {
@@ -14,9 +15,12 @@ int main(int argc, const char **argv) {
   gen.seed(time(0));
 
   // Start up game and logic
+  slice_hack::game_map::entities::EntityManager *entity_manager =
+    new slice_hack::game_map::entities::EntityManager();
   slice_hack::EventLoop *event_loop = new slice_hack::EventLoop();
-  slice_hack::Game *game = new slice_hack::Game();
-  slice_hack::PlayerManager *player_manager = new slice_hack::PlayerManager();
+  slice_hack::Game *game = new slice_hack::Game(entity_manager);
+  slice_hack::PlayerManager *player_manager =
+    new slice_hack::PlayerManager(entity_manager);
 
   event_loop->AddEventTick(game);
 
@@ -42,6 +46,8 @@ int main(int argc, const char **argv) {
   delete server;
   delete game;
   delete event_loop;
+  delete entity_manager;
+  delete player_manager;
 
   return 0;
 }

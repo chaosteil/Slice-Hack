@@ -10,13 +10,14 @@
 namespace slice_hack {
 namespace game_map {
 
-GameMap::GameMap(int width, int height, int section_width, int section_height)
+GameMap::GameMap(int width, int height, int section_width, int section_height,
+                 entities::EntityManager *entity_manager)
     : EventTickInterface(),
       GameMapSectionManagerInterface(),
       entities::EntityPositionManagerInterface(),
       width_(width), height_(height),
       section_width_(section_width), section_height_(section_height),
-      entity_manager_(new entities::EntityManager()),
+      entity_manager_(entity_manager),
       sections_(width * height) {
 
   // Initialize all sections
@@ -45,8 +46,6 @@ GameMap::~GameMap() {
   BOOST_FOREACH (GameMapSection *section, sections_) {
     delete section;
   }
-
-  delete entity_manager_;
 }
 
 int GameMap::width() const {

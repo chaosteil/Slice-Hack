@@ -12,11 +12,11 @@
 
 namespace slice_hack {
 
-Game::Game()
+Game::Game(game_map::entities::EntityManager *entity_manager)
     : events::EventVisitorInterface(),
       EventTickInterface(),
       // TODO(Chaosteil): Get values from settings
-      map_(new game_map::GameMap(10, 10, 20, 20)) {}
+      map_(new game_map::GameMap(10, 10, 20, 20, entity_manager)) {}
 
 Game::~Game() {
   delete map_;
@@ -53,5 +53,9 @@ void Game::Visit(events::ItemUseEvent *itemuse_event) {}
 void Game::Visit(events::LeaveEvent *leave_event) {}
 
 void Game::Visit(events::MoveEvent *move_event) {}
+
+game_map::GameMap *Game::map() const {
+  return map_;
+}
 
 }  // namespace slice_hack

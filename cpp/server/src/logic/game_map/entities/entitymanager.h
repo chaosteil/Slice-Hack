@@ -23,7 +23,6 @@ class EntityManager {
   virtual void RemoveEntity(Entity *entity);
  
  private:
-  boost::uuids::random_generator generator_;
   std::map<boost::uuids::uuid, Entity *> entities_;
 };
 

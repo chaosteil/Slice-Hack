@@ -1,5 +1,6 @@
 #include "logic/game_map/entities/entitymanager.h"
 
+#include <iostream>
 #include <boost/foreach.hpp>
 #include "logic/game_map/entities/entity.h"
 #include "logic/game_map/entities/monster.h"
@@ -20,7 +21,7 @@ EntityManager::~EntityManager() {
 }
 
 Entity *EntityManager::SpawnEntity(/* some values */) {
-  boost::uuids::uuid id = generator_();
+  boost::uuids::uuid id = boost::uuids::random_generator()();
 
   Entity *entity = new Monster(id, "Test", "monster", Health(10));
 

@@ -9,6 +9,11 @@
 namespace slice_hack {
 
 namespace game_map {
+
+namespace entities {
+class EntityManager;
+};  // namespace entities
+
 class GameMap;
 }  // namespace game_map
 
@@ -19,7 +24,7 @@ class Event;
 class Game : public events::EventVisitorInterface,
              public EventTickInterface {
  public:
-  Game();
+  Game(game_map::entities::EntityManager *entity_manager);
   virtual ~Game();
 
   virtual void AddEvent(events::Event *event);
@@ -31,6 +36,8 @@ class Game : public events::EventVisitorInterface,
   virtual void Visit(events::ItemUseEvent *itemuse_event);
   virtual void Visit(events::LeaveEvent *leave_event);
   virtual void Visit(events::MoveEvent *move_event);
+
+  virtual game_map::GameMap *map() const;
  
  private:
   std::queue<events::Event*> events_;

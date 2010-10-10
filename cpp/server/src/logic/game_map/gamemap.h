@@ -23,7 +23,8 @@ class GameMap : public EventTickInterface,
                 public GameMapSectionManagerInterface,
                 public entities::EntityPositionManagerInterface {
  public:
-  GameMap(int width, int height, int section_width, int section_height);
+  GameMap(int width, int height, int section_width, int section_height,
+          entities::EntityManager *entity_manager_);
   virtual ~GameMap();
 
   int width() const;
