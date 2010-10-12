@@ -71,10 +71,9 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     }
 
     // TODO(Chaosteil): Add event to loop
+    // System will free event.
 
     client->DrainBuffer(message_length);
-
-    interpreter->ClearEvent(event);
   }
 }
 
@@ -101,9 +100,5 @@ void PlayerManager::Visit(events::ItemUseEvent *itemuse_event) {}
 void PlayerManager::Visit(events::LeaveEvent *leave_event) {}
 
 void PlayerManager::Visit(events::MoveEvent *move_event) {}
-
-void PlayerManager::CleanEvent(events::Event *event) {
-  delete event;
-}
 
 }  // namespace slice_hack

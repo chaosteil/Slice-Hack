@@ -12,8 +12,7 @@
 namespace slice_hack {
 
 class PlayerManager : public network::ClientManagerInterface,
-                      public events::EventVisitorInterface,
-                      public events::EventManagerInterface {
+                      public events::EventVisitorInterface {
  public:
   PlayerManager(game_map::entities::EntityManager *entity_manager);
   virtual ~PlayerManager();
@@ -30,8 +29,6 @@ class PlayerManager : public network::ClientManagerInterface,
   virtual void Visit(events::ItemUseEvent *itemuse_event);
   virtual void Visit(events::LeaveEvent *leave_event);
   virtual void Visit(events::MoveEvent *move_event);
-
-  virtual void CleanEvent(events::Event *event);
 
  private:
   std::map<network::Client *, game_map::entities::Entity *> players_;
