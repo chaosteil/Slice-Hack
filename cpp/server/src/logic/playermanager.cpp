@@ -74,7 +74,15 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     // System will free event.
 
     client->DrainBuffer(message_length);
+
+    client->GetBuffer(&length);
+
+    if (length == 0) {
+      break;
+    }
   }
+
+  return kOk;
 }
 
 void PlayerManager::RemoveClient(network::Client *client) {
