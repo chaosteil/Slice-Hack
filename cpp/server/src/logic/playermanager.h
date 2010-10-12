@@ -7,7 +7,6 @@
 #include "network/messages/messageinterpreter.h"
 #include "game_map/entities/entitymanager.h"
 #include "logic/events/eventvisitorinterface.h"
-#include "logic/events/eventmanagerinterface.h"
 
 namespace slice_hack {
 

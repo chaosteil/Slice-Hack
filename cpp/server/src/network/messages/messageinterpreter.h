@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "logic/events/eventmanagerinterface.h"
+
 namespace slice_hack {
 
 namespace events {
@@ -12,7 +14,7 @@ class Event;
 namespace network {
 namespace messages {
 
-class MessageInterpreter {
+class MessageInterpreter : public events::EventManagerInterface {
  public:
   struct Buffer {
     const char *buf;
@@ -24,7 +26,7 @@ class MessageInterpreter {
 
   int id() const;
   virtual events::Event *GetEvent(Buffer *buffer) const = 0;
-  virtual void ClearEvent(events::Event *event) const = 0;
+  virtual void CleanEvent(events::Event *event) const = 0;
 
   static bool DrainString(std::string *text, Buffer *buffer);
   static bool DrainInt8(int *number, Buffer *buffer);
