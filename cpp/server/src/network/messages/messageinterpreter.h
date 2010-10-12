@@ -1,0 +1,44 @@
+#ifndef SLICE_HACK_NETWORK_MESSAGES_MESSAGEINTERPRETER_H_
+#define SLICE_HACK_NETWORK_MESSAGES_MESSAGEINTERPRETER_H_
+
+#include <string>
+
+namespace slice_hack {
+
+namespace events {
+class Event;
+}  // namespace events
+
+namespace network {
+namespace messages {
+
+class MessageInterpreter {
+ public:
+  struct Buffer {
+    const char *buf;
+    int length;
+    int pos;
+  };
+
+  virtual ~MessageInterpreter();
+
+  int id() const;
+  virtual events::Event *GetEvent(Buffer *buffer) const = 0;
+  virtual void ClearEvent(events::Event *event) const = 0;
+
+  static bool DrainString(std::string *text, Buffer *buffer);
+  static bool DrainInt8(int *number, Buffer *buffer);
+  static bool DrainInt16(int *number, Buffer *buffer);
+  static bool DrainInt32(int *number, Buffer *buffer);
+ protected:
+  MessageInterpreter(int id);
+
+ private:
+  int id_;
+};
+
+}  // namespace messages
+}  // namespace network
+}  // namespace slice_hack
+
+#endif  // SLICE_HACK_NETWORK_MESSAGES_MESSAGEINTERPRETER_H_

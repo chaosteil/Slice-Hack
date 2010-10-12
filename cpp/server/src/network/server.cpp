@@ -102,12 +102,9 @@ void Server::HandleEvent(int fd, FileEventType event) {
     if (received <= 0) {
       Disconnect(client);
     } else {
-      buf[received+1] = '\0';
-
-      std::cout << received << " " << buf << std::endl;
-
       if (client_manager_) {
-        client_manager_->HandleBuffer(client, buf, received);
+        client->AddBuffer(buf, received);
+        client_manager_->HandleBuffer(client);
       }
     } 
   }

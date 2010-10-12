@@ -10,14 +10,14 @@ class ClientManagerInterface {
  public:
   enum HandleData {
     kOk = 0,
-    kInvalid = 1
+    kIncomplete = 1,
+    kInvalid = 2
   };
 
   virtual ~ClientManagerInterface() {}
 
   virtual void AddClient(Client *client) = 0;
-  virtual HandleData HandleBuffer(Client *client, const char *buffer,
-                                  int length) = 0;
+  virtual HandleData HandleBuffer(Client *client) = 0;
   virtual void RemoveClient(Client *client) = 0;
 
  protected:

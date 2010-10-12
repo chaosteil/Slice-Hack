@@ -15,9 +15,15 @@ class Client {
 
   int fd() const;
   void SendMessage(const messages::SendMessageInterface &send_message);
+
+  void AddBuffer(const char *buf, int length);
+  const char *GetBuffer(int *length) const;
+  void DrainBuffer(int length);
  
  private:
   const int fd_;
+  char *buffer_;
+  int buffer_length_;
 };
 
 }  // namespace network

@@ -9,6 +9,7 @@
 #include "logic/events/chatevent.h"
 #include "logic/events/itemuseevent.h"
 #include "logic/events/moveevent.h"
+#include "logic/events/eventmanagerinterface.h"
 
 namespace slice_hack {
 
@@ -22,20 +23,25 @@ Game::~Game() {
   delete map_;
 }
 
-void Game::AddEvent(events::Event *event) {
-  events_.push(event);
+void Game::AddEvent(events::Event *event,
+                    events::EventManagerInterface *event_manager) {
+  events_.push(ev_evman_t(event, event_manager));
 }
 
 void Game::Run() {
   // 1. Drain event queue. We want to copy the original queue,
   //    so it can be filled why it is running.
-  std::queue<events::Event *> events_temp(events_);
+  std::queue<ev_evman_t> events_temp(events_);
   while (!events_.empty()) {
     events_.pop();
   }
   
   while (!events_temp.empty()) {
     // TODO(Chaosteil): Do some logic.
+    ev_evman_t event = events_temp.front();
+    events_temp.pop();
+
+    event.second->CleanEvent(event.first);
   }
 
   // 2. Run NPC logic.

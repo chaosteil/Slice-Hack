@@ -32,4 +32,5 @@ slicehack_SOURCES = \
 	logic/game_map/entities/inventory/itemslot.cpp \
 	\
 	network/server.cpp \
-	network/client.cpp
+	network/client.cpp \
+	network/messages/messageinterpreter.cpp
