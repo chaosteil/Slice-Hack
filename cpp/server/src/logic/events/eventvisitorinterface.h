@@ -10,6 +10,7 @@ class EnterEvent;
 class ItemUseEvent;
 class LeaveEvent;
 class MoveEvent;
+class LoginEvent;
 
 class EventVisitorInterface {
  public:
@@ -22,6 +23,7 @@ class EventVisitorInterface {
   virtual void Visit(ItemUseEvent *itemuse_event) = 0;
   virtual void Visit(LeaveEvent *leave_event) = 0;
   virtual void Visit(MoveEvent *move_event) = 0;
+  virtual void Visit(LoginEvent *login_event) = 0;
 };
 
 }  // namespace events 

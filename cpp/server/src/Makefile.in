@@ -53,6 +53,7 @@ am_slicehack_OBJECTS = main.$(OBJEXT) signal_handlers.$(OBJEXT) \
 	logic/events/chatevent.$(OBJEXT) \
 	logic/events/itemuseevent.$(OBJEXT) \
 	logic/events/moveevent.$(OBJEXT) \
+	logic/events/loginevent.$(OBJEXT) \
 	logic/game_map/gamemap.$(OBJEXT) \
 	logic/game_map/gamemapsection.$(OBJEXT) \
 	logic/game_map/gamemaprandomizer.$(OBJEXT) \
@@ -186,6 +187,7 @@ slicehack_SOURCES = \
 	logic/events/chatevent.cpp \
 	logic/events/itemuseevent.cpp \
 	logic/events/moveevent.cpp \
+	logic/events/loginevent.cpp \
 	\
 	logic/game_map/gamemap.cpp \
 	logic/game_map/gamemapsection.cpp \
@@ -306,6 +308,8 @@ logic/events/itemuseevent.$(OBJEXT): logic/events/$(am__dirstamp) \
 	logic/events/$(DEPDIR)/$(am__dirstamp)
 logic/events/moveevent.$(OBJEXT): logic/events/$(am__dirstamp) \
 	logic/events/$(DEPDIR)/$(am__dirstamp)
+logic/events/loginevent.$(OBJEXT): logic/events/$(am__dirstamp) \
+	logic/events/$(DEPDIR)/$(am__dirstamp)
 logic/game_map/$(am__dirstamp):
 	@$(MKDIR_P) logic/game_map
 	@: > logic/game_map/$(am__dirstamp)
@@ -394,6 +398,7 @@ mostlyclean-compile:
 	-rm -f logic/events/chatevent.$(OBJEXT)
 	-rm -f logic/events/event.$(OBJEXT)
 	-rm -f logic/events/itemuseevent.$(OBJEXT)
+	-rm -f logic/events/loginevent.$(OBJEXT)
 	-rm -f logic/events/moveevent.$(OBJEXT)
 	-rm -f logic/game.$(OBJEXT)
 	-rm -f logic/game_map/entities/entity.$(OBJEXT)
@@ -425,6 +430,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/chatevent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/event.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/itemuseevent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/loginevent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/events/$(DEPDIR)/moveevent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logic/game_map/$(DEPDIR)/gamemaprandomizer.Po@am__quote@

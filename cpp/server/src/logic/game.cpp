@@ -60,6 +60,8 @@ void Game::Visit(events::LeaveEvent *leave_event) {}
 
 void Game::Visit(events::MoveEvent *move_event) {}
 
+void Game::Visit(events::LoginEvent *login_event) {}
+
 game_map::GameMap *Game::map() const {
   return map_;
 }

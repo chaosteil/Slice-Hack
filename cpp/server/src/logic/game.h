@@ -39,6 +39,7 @@ class Game : public events::EventVisitorInterface,
   virtual void Visit(events::ItemUseEvent *itemuse_event);
   virtual void Visit(events::LeaveEvent *leave_event);
   virtual void Visit(events::MoveEvent *move_event);
+  virtual void Visit(events::LoginEvent *login_event);
 
   virtual game_map::GameMap *map() const;
  

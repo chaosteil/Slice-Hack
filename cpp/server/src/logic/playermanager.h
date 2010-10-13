@@ -28,12 +28,15 @@ class PlayerManager : public network::ClientManagerInterface,
   virtual void Visit(events::ItemUseEvent *itemuse_event);
   virtual void Visit(events::LeaveEvent *leave_event);
   virtual void Visit(events::MoveEvent *move_event);
+  virtual void Visit(events::LoginEvent *login_event);
 
  private:
   std::map<network::Client *, game_map::entities::Entity *> players_;
   game_map::entities::EntityManager *entity_manager_;
 
   std::map<int, network::messages::MessageInterpreter*> messages_;
+
+  bool push_event_;
 };
 
 }  // namespace slice_hack

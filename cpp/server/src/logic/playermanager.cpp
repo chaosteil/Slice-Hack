@@ -5,6 +5,7 @@
 #include "logic/game_map/entities/entity.h"
 #include "logic/game_map/entities/entitymanager.h"
 #include "logic/events/event.h"
+#include "logic/events/loginevent.h"
 
 namespace en = slice_hack::game_map::entities;
 namespace nm = slice_hack::network::messages;
@@ -13,7 +14,8 @@ namespace slice_hack {
 
 PlayerManager::PlayerManager(en::EntityManager *entity_manager)
     : ClientManagerInterface(),
-      entity_manager_(entity_manager) {}
+      entity_manager_(entity_manager),
+      push_event_(false) {}
 
 PlayerManager::~PlayerManager() {
   while (players_.size() != 0) {
@@ -70,8 +72,16 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
       return kInvalid;
     }
 
-    // TODO(Chaosteil): Check if event is relevant to our interests.
-    // If not: Add event to loop, where the system will free the event.
+    push_event_ = false;
+
+    // Preliminary handle event
+    event->Accept(this);
+    
+    if (push_event_) {
+      // TODO(Chaosteil): Add event to loop, where the system will free the event.
+    } else {
+      interpreter->CleanEvent(event);
+    }
 
     client->DrainBuffer(message_length);
 
@@ -97,16 +107,33 @@ void PlayerManager::RegisterMessage(nm::MessageInterpreter *interpreter) {
   messages_[interpreter->id()] = interpreter;
 }
 
-void PlayerManager::Visit(events::AttackEvent *attack_event) {}
+void PlayerManager::Visit(events::AttackEvent *attack_event) {
+  push_event_ = true;
+}
 
-void PlayerManager::Visit(events::ChatEvent *attack_event) {}
+void PlayerManager::Visit(events::ChatEvent *attack_event) {
+  push_event_ = true;
+}
 
-void PlayerManager::Visit(events::EnterEvent *enter_event) {}
+void PlayerManager::Visit(events::EnterEvent *enter_event) {
+  push_event_ = true;
+}
 
-void PlayerManager::Visit(events::ItemUseEvent *itemuse_event) {}
+void PlayerManager::Visit(events::ItemUseEvent *itemuse_event) {
+  push_event_ = true;
+}
 
-void PlayerManager::Visit(events::LeaveEvent *leave_event) {}
+void PlayerManager::Visit(events::LeaveEvent *leave_event) {
+  push_event_ = true;
+}
 
-void PlayerManager::Visit(events::MoveEvent *move_event) {}
+void PlayerManager::Visit(events::MoveEvent *move_event) {
+  push_event_ = true;
+}
+
+void PlayerManager::Visit(events::LoginEvent *login_event) {
+  push_event_ = false;
+  std::cout << "User " << login_event->name() << " logged in!" << std::endl;
+}
 
 }  // namespace slice_hack

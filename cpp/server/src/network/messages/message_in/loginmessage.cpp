@@ -1,6 +1,7 @@
 #include "network/messages/message_in/loginmessage.h"
 
 #include "logic/events/event.h"
+#include "logic/events/loginevent.h"
 
 namespace slice_hack {
 namespace network {
@@ -15,7 +16,7 @@ events::Event *LoginMessage::GetEvent(Buffer *buffer) const {
   std::string user_name;
   DrainString(&user_name, buffer);
 
-  return NULL;
+  return new events::LoginEvent(user_name);
 }
 
 void LoginMessage::CleanEvent(events::Event *event) const {
