@@ -36,6 +36,7 @@ class PlayerManager : public network::ClientManagerInterface,
 
   std::map<int, network::messages::MessageInterpreter*> messages_;
 
+  network::Client *current_client_;
   bool push_event_;
 };
 

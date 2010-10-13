@@ -15,7 +15,8 @@ namespace slice_hack {
 PlayerManager::PlayerManager(en::EntityManager *entity_manager)
     : ClientManagerInterface(),
       entity_manager_(entity_manager),
-      push_event_(false) {}
+      push_event_(false),
+      current_client_(NULL) {}
 
 PlayerManager::~PlayerManager() {
   while (players_.size() != 0) {
@@ -73,6 +74,7 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     }
 
     push_event_ = false;
+    current_client_ = client;
 
     // Preliminary handle event
     event->Accept(this);
@@ -82,6 +84,8 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     } else {
       interpreter->CleanEvent(event);
     }
+
+    current_client_ = NULL;
 
     client->DrainBuffer(message_length);
 
@@ -108,27 +112,39 @@ void PlayerManager::RegisterMessage(nm::MessageInterpreter *interpreter) {
 }
 
 void PlayerManager::Visit(events::AttackEvent *attack_event) {
-  push_event_ = true;
+  if (players_.find(current_client_) != players_.end()) {
+    push_event_ = true;
+  }
 }
 
 void PlayerManager::Visit(events::ChatEvent *attack_event) {
-  push_event_ = true;
+  if (players_.find(current_client_) != players_.end()) {
+    push_event_ = true;
+  }
 }
 
 void PlayerManager::Visit(events::EnterEvent *enter_event) {
-  push_event_ = true;
+  if (players_.find(current_client_) != players_.end()) {
+    push_event_ = true;
+  }
 }
 
 void PlayerManager::Visit(events::ItemUseEvent *itemuse_event) {
-  push_event_ = true;
+  if (players_.find(current_client_) != players_.end()) {
+    push_event_ = true;
+  }
 }
 
 void PlayerManager::Visit(events::LeaveEvent *leave_event) {
-  push_event_ = true;
+  if (players_.find(current_client_) != players_.end()) {
+    push_event_ = true;
+  }
 }
 
 void PlayerManager::Visit(events::MoveEvent *move_event) {
-  push_event_ = true;
+  if (players_.find(current_client_) != players_.end()) {
+    push_event_ = true;
+  }
 }
 
 void PlayerManager::Visit(events::LoginEvent *login_event) {
