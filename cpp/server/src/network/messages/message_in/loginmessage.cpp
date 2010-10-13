@@ -12,6 +12,9 @@ LoginMessage::LoginMessage() : MessageInterpreter(1) {}
 LoginMessage::~LoginMessage() {}
 
 events::Event *LoginMessage::GetEvent(Buffer *buffer) const {
+  std::string user_name;
+  DrainString(&user_name, buffer);
+
   return NULL;
 }
 

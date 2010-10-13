@@ -70,8 +70,8 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
       return kInvalid;
     }
 
-    // TODO(Chaosteil): Add event to loop
-    // System will free event.
+    // TODO(Chaosteil): Check if event is relevant to our interests.
+    // If not: Add event to loop, where the system will free the event.
 
     client->DrainBuffer(message_length);
 
