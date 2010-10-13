@@ -3,6 +3,7 @@
 #include <cstring>
 #include <stdint.h>
 #include <iostream>
+#include <netinet/in.h>
 
 namespace slice_hack {
 namespace network {
@@ -62,7 +63,7 @@ bool MessageInterpreter::DrainInt16(int *number, Buffer *buffer) {
   }
 
   if (number != NULL) {
-    int16_t buf = *(const int16_t*)(buffer->buf+buffer->pos);
+    int16_t buf = ntohs(*(const int16_t*)(buffer->buf+buffer->pos));
     *number = buf;
   }
 
@@ -76,7 +77,7 @@ bool MessageInterpreter::DrainInt32(int *number, Buffer *buffer) {
   }
 
   if (number != NULL) {
-    int32_t buf = *(const int32_t*)(buffer->buf+buffer->pos);
+    int32_t buf = ntohl(*(const int32_t*)(buffer->buf+buffer->pos));
     *number = buf;
   }
 
