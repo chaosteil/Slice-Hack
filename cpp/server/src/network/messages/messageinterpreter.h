@@ -4,6 +4,7 @@
 #include <string>
 
 #include "logic/events/eventmanagerinterface.h"
+#include "network/clientmanagerinterface.h"
 
 namespace slice_hack {
 

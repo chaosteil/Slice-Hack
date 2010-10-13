@@ -14,7 +14,10 @@ LoginMessage::~LoginMessage() {}
 
 events::Event *LoginMessage::GetEvent(Buffer *buffer) const {
   std::string user_name;
-  DrainString(&user_name, buffer);
+
+  if (!DrainString(&user_name, buffer)) {
+    return NULL;
+  }
 
   return new events::LoginEvent(user_name);
 }

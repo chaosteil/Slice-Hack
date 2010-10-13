@@ -5,11 +5,11 @@
 namespace slice_hack {
 namespace events {
 
-LoginEvent::~LoginEvent() {}
-
 LoginEvent::LoginEvent(const std::string &name)
     : Event(true),
       name_(name) {}
+
+LoginEvent::~LoginEvent() {}
 
 const std::string &LoginEvent::name() const {
   return name_;

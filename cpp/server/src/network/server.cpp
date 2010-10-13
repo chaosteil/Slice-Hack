@@ -104,7 +104,10 @@ void Server::HandleEvent(int fd, FileEventType event) {
     } else {
       if (client_manager_) {
         client->AddBuffer(buf, received);
-        client_manager_->HandleBuffer(client);
+        if (client_manager_->HandleBuffer(client) ==
+            ClientManagerInterface::kInvalid) {
+          Disconnect(client);
+        }
       }
     } 
   }

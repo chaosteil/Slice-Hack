@@ -2,6 +2,7 @@
 
 #include <cstring>
 #include <stdint.h>
+#include <iostream>
 
 namespace slice_hack {
 namespace network {
@@ -29,7 +30,7 @@ bool MessageInterpreter::DrainString(std::string *text, Buffer *buffer) {
   if (text != NULL) {
     char *buf = new char[string_length+1];
 
-    strncpy(buf, buffer->buf, string_length);
+    strncpy(buf, buffer->buf + buffer->pos, string_length);
     buf[string_length] = '\0';
 
     text->assign(buf);

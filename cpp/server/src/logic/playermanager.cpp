@@ -1,5 +1,6 @@
 #include "logic/playermanager.h"
 
+#include <iostream>
 #include <algorithm>
 #include "network/client.h"
 #include "logic/game_map/entities/entity.h"
@@ -26,9 +27,9 @@ PlayerManager::~PlayerManager() {
 }
 
 void PlayerManager::AddClient(network::Client *client) {
-  en::Entity *entity = entity_manager_->SpawnEntity();
+  // en::Entity *entity = entity_manager_->SpawnEntity();
       
-  players_[client] = entity;
+  players_[client] = NULL;
 }
 
 PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
@@ -49,6 +50,7 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     }
 
     if (messages_.find(message_id) == messages_.end()) {
+      std::cout << "No such message." << std::endl;
       return kInvalid;
     }
 
@@ -56,7 +58,7 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
       return kIncomplete;
     }
 
-    if (buffer.pos + message_length < length) {
+    if ((buffer.pos + message_length) > length) {
       return kIncomplete;
     }
 
@@ -70,6 +72,7 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     }
 
     if (buffer.pos > message_length) {
+      interpreter->CleanEvent(event);
       return kInvalid;
     }
 
@@ -102,7 +105,9 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
 void PlayerManager::RemoveClient(network::Client *client) {
   en::Entity *entity = players_[client];
 
-  entity_manager_->RemoveEntity(entity);
+  if (entity != NULL) {
+    entity_manager_->RemoveEntity(entity);
+  }
 
   players_.erase(client);
 }
@@ -112,43 +117,46 @@ void PlayerManager::RegisterMessage(nm::MessageInterpreter *interpreter) {
 }
 
 void PlayerManager::Visit(events::AttackEvent *attack_event) {
-  if (players_.find(current_client_) != players_.end()) {
+  if (players_[current_client_] != NULL) {
     push_event_ = true;
   }
 }
 
 void PlayerManager::Visit(events::ChatEvent *attack_event) {
-  if (players_.find(current_client_) != players_.end()) {
+  if (players_[current_client_] != NULL) {
     push_event_ = true;
   }
 }
 
 void PlayerManager::Visit(events::EnterEvent *enter_event) {
-  if (players_.find(current_client_) != players_.end()) {
+  if (players_[current_client_] != NULL) {
     push_event_ = true;
   }
 }
 
 void PlayerManager::Visit(events::ItemUseEvent *itemuse_event) {
-  if (players_.find(current_client_) != players_.end()) {
+  if (players_[current_client_] != NULL) {
     push_event_ = true;
   }
 }
 
 void PlayerManager::Visit(events::LeaveEvent *leave_event) {
-  if (players_.find(current_client_) != players_.end()) {
+  if (players_[current_client_] != NULL) {
     push_event_ = true;
   }
 }
 
 void PlayerManager::Visit(events::MoveEvent *move_event) {
-  if (players_.find(current_client_) != players_.end()) {
+  if (players_[current_client_] != NULL) {
     push_event_ = true;
   }
 }
 
 void PlayerManager::Visit(events::LoginEvent *login_event) {
-  push_event_ = false;
+  if (players_[current_client_] != NULL) {
+    return;
+  }
+
   std::cout << "User " << login_event->name() << " logged in!" << std::endl;
 }
 
