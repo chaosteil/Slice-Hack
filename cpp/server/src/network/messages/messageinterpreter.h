@@ -32,6 +32,7 @@ class MessageInterpreter : public events::EventManagerInterface {
   static bool DrainInt8(int *number, Buffer *buffer);
   static bool DrainInt16(int *number, Buffer *buffer);
   static bool DrainInt32(int *number, Buffer *buffer);
+
  protected:
   MessageInterpreter(int id);
 

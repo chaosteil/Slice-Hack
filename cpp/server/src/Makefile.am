@@ -33,4 +33,6 @@ slicehack_SOURCES = \
 	\
 	network/server.cpp \
 	network/client.cpp \
-	network/messages/messageinterpreter.cpp
+	network/messages/messageinterpreter.cpp \
+	\
+	network/messages/message_in/loginmessage.cpp

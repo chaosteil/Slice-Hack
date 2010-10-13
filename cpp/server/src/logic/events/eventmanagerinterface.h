@@ -10,7 +10,7 @@ class EventManagerInterface {
  public:
   virtual ~EventManagerInterface() {}
 
-  virtual void CleanEvent(Event *event) = 0;
+  virtual void CleanEvent(Event *event) const = 0;
 
  protected:
   EventManagerInterface() {}

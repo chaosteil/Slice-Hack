@@ -9,6 +9,10 @@
 #include "logic/game_map/entities/entitymanager.h"
 #include "network/server.h"
 
+#include "network/messages/message_in/loginmessage.h"
+
+namespace nmi = slice_hack::network::messages::message_in;
+
 int main(int argc, const char **argv) {
   // Seed the global random number generator
   boost::mt19937 gen;
@@ -19,8 +23,13 @@ int main(int argc, const char **argv) {
     new slice_hack::game_map::entities::EntityManager();
   slice_hack::EventLoop *event_loop = new slice_hack::EventLoop();
   slice_hack::Game *game = new slice_hack::Game(entity_manager);
+
+  // Load up all packets and the player manager
+  nmi::LoginMessage *login_message = new nmi::LoginMessage();
+
   slice_hack::PlayerManager *player_manager =
     new slice_hack::PlayerManager(entity_manager);
+  player_manager->RegisterMessage(login_message);
 
   event_loop->AddEventTick(game);
 
@@ -48,6 +57,8 @@ int main(int argc, const char **argv) {
   delete event_loop;
   delete entity_manager;
   delete player_manager;
+
+  delete login_message;
 
   return 0;
 }
