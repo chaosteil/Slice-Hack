@@ -37,7 +37,9 @@ GameMap::GameMap(int width, int height, int section_width, int section_height,
                               section_width, section_height);
 
   // Test Entity
-  entities::Entity *entity = entity_manager_->SpawnEntity();
+  entities::Entity *entity =
+    entity_manager_->SpawnEntity("test",
+                                 entities::EntityManager::kEntityMonster);
   GameMapSection *section = GetSectionFromPosition(Position(9, 9));
   section->SetEntityPosition(entity, Position(9, 9));
 }

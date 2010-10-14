@@ -7,17 +7,20 @@
 #include "logic/game_map/entities/entitymanager.h"
 #include "logic/events/event.h"
 #include "logic/events/loginevent.h"
+#include "logic/game.h"
 
 namespace en = slice_hack::game_map::entities;
 namespace nm = slice_hack::network::messages;
 
 namespace slice_hack {
 
-PlayerManager::PlayerManager(en::EntityManager *entity_manager)
+PlayerManager::PlayerManager(en::EntityManager *entity_manager,
+                             Game *game)
     : ClientManagerInterface(),
       entity_manager_(entity_manager),
       push_event_(false),
-      current_client_(NULL) {}
+      current_client_(NULL),
+      game_(game) {}
 
 PlayerManager::~PlayerManager() {
   while (players_.size() != 0) {
@@ -83,7 +86,7 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     event->Accept(this);
     
     if (push_event_) {
-      // TODO(Chaosteil): Add event to loop, where the system will free the event.
+      game_->AddEvent(event, interpreter);
     } else {
       interpreter->CleanEvent(event);
     }
@@ -157,7 +160,14 @@ void PlayerManager::Visit(events::LoginEvent *login_event) {
     return;
   }
 
+  Login(login_event);
+}
+
+void PlayerManager::Login(events::LoginEvent *login_event) {
   std::cout << "User " << login_event->name() << " logged in!" << std::endl;
+
+  players_[current_client_] = entity_manager_->SpawnEntity(login_event->name(),
+    game_map::entities::EntityManager::kEntityPlayer);
 }
 
 }  // namespace slice_hack

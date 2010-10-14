@@ -28,7 +28,7 @@ int main(int argc, const char **argv) {
   nmi::LoginMessage *login_message = new nmi::LoginMessage();
 
   slice_hack::PlayerManager *player_manager =
-    new slice_hack::PlayerManager(entity_manager);
+    new slice_hack::PlayerManager(entity_manager, game);
   player_manager->RegisterMessage(login_message);
 
   event_loop->AddEventTick(game);

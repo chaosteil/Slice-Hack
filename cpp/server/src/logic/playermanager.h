@@ -10,10 +10,13 @@
 
 namespace slice_hack {
 
+class Game;
+
 class PlayerManager : public network::ClientManagerInterface,
                       public events::EventVisitorInterface {
  public:
-  PlayerManager(game_map::entities::EntityManager *entity_manager);
+  PlayerManager(game_map::entities::EntityManager *entity_manager,
+                Game *game);
   virtual ~PlayerManager();
 
   virtual void AddClient(network::Client *client);
@@ -31,6 +34,8 @@ class PlayerManager : public network::ClientManagerInterface,
   virtual void Visit(events::LoginEvent *login_event);
 
  private:
+  void Login(events::LoginEvent *login_event);
+
   std::map<network::Client *, game_map::entities::Entity *> players_;
   game_map::entities::EntityManager *entity_manager_;
 
@@ -38,6 +43,8 @@ class PlayerManager : public network::ClientManagerInterface,
 
   network::Client *current_client_;
   bool push_event_;
+
+  Game *game_;
 };
 
 }  // namespace slice_hack

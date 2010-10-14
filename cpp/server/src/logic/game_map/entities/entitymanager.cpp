@@ -4,6 +4,7 @@
 #include <boost/foreach.hpp>
 #include "logic/game_map/entities/entity.h"
 #include "logic/game_map/entities/monster.h"
+#include "logic/game_map/entities/player.h"
 
 namespace slice_hack {
 namespace game_map {
@@ -20,10 +21,18 @@ EntityManager::~EntityManager() {
   entities_.clear();
 }
 
-Entity *EntityManager::SpawnEntity(/* some values */) {
+Entity *EntityManager::SpawnEntity(const std::string &name,
+                                   EntityType entity_type) {
   boost::uuids::uuid id = boost::uuids::random_generator()();
 
-  Entity *entity = new Monster(id, "Test", "monster", Health(10));
+  Entity *entity = NULL;
+  if (entity_type == kEntityMonster) {
+    entity = new Monster(id, name, "monster", Health(10));
+  } else if (entity_type == kEntityPlayer) {
+    entity = new Player(id, name, "player", Health(100));
+  } else {
+    entity = new Entity(id, name, "entity", Health(1));
+  }
 
   entities_[id] = entity;
 

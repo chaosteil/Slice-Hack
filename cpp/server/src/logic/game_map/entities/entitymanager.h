@@ -14,11 +14,17 @@ class Entity;
 
 class EntityManager {
  public:
+  enum EntityType {
+    kEntityNone = 0,
+    kEntityMonster = 1,
+    kEntityPlayer = 2
+  };
+
   EntityManager();
   virtual ~EntityManager();
 
   // Entity factory. Assigns the entity a uuid.
-  virtual Entity *SpawnEntity(/* some values */);
+  virtual Entity *SpawnEntity(const std::string &name, EntityType type);
   virtual Entity *GetEntity(const boost::uuids::uuid &id);
   virtual void RemoveEntity(Entity *entity);
  
