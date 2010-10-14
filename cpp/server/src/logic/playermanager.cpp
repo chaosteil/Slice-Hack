@@ -30,8 +30,6 @@ PlayerManager::~PlayerManager() {
 }
 
 void PlayerManager::AddClient(network::Client *client) {
-  // en::Entity *entity = entity_manager_->SpawnEntity();
-      
   players_[client] = NULL;
 }
 
@@ -68,7 +66,7 @@ PlayerManager::HandleData PlayerManager::HandleBuffer(network::Client *client) {
     nm::MessageInterpreter *interpreter = messages_[message_id];
 
     // Get message body
-    events::Event *event = interpreter->GetEvent(&buffer);
+    events::Event *event = interpreter->GetEvent(&buffer, players_[client]);
 
     if (event == NULL) {
       return kInvalid;

@@ -12,6 +12,12 @@ namespace events {
 class Event;
 }  // namespace events
 
+namespace game_map {
+namespace entities {
+class Entity;
+}  // namespace entities
+}  // namespace game_map
+
 namespace network {
 namespace messages {
 
@@ -26,7 +32,8 @@ class MessageInterpreter : public events::EventManagerInterface {
   virtual ~MessageInterpreter();
 
   int id() const;
-  virtual events::Event *GetEvent(Buffer *buffer) const = 0;
+  virtual events::Event *GetEvent(Buffer *buffer,
+                                  game_map::entities::Entity *origin) const = 0;
   virtual void CleanEvent(events::Event *event) const = 0;
 
   static bool DrainString(std::string *text, Buffer *buffer);

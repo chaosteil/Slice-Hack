@@ -1,12 +1,13 @@
 #include "logic/events/loginevent.h"
 
 #include "logic/events/eventvisitorinterface.h"
+#include "logic/game_map/entities/entity.h"
 
 namespace slice_hack {
 namespace events {
 
 LoginEvent::LoginEvent(const std::string &name)
-    : Event(true),
+    : Event(true, NULL),
       name_(name) {}
 
 LoginEvent::~LoginEvent() {}

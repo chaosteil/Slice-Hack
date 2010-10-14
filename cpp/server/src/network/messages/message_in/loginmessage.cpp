@@ -12,7 +12,8 @@ LoginMessage::LoginMessage() : MessageInterpreter(1) {}
 
 LoginMessage::~LoginMessage() {}
 
-events::Event *LoginMessage::GetEvent(Buffer *buffer) const {
+events::Event *LoginMessage::GetEvent(Buffer *buffer,
+    game_map::entities::Entity *origin) const {
   std::string user_name;
 
   if (!DrainString(&user_name, buffer)) {

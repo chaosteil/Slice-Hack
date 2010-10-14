@@ -1,9 +1,0 @@
-logic/events/moveevent.o: logic/events/moveevent.cpp \
- logic/events/moveevent.h logic/events/event.h \
- logic/events/eventvisitorinterface.h
-
-logic/events/moveevent.h:
-
-logic/events/event.h:
-
-logic/events/eventvisitorinterface.h:

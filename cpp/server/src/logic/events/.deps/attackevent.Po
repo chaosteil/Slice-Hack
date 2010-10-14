@@ -1,9 +1,0 @@
-logic/events/attackevent.o: logic/events/attackevent.cpp \
- logic/events/attackevent.h logic/events/event.h \
- logic/events/eventvisitorinterface.h
-
-logic/events/attackevent.h:
-
-logic/events/event.h:
-
-logic/events/eventvisitorinterface.h:

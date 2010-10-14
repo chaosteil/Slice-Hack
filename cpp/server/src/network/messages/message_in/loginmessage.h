@@ -13,7 +13,8 @@ class LoginMessage : public MessageInterpreter {
   LoginMessage();
   virtual ~LoginMessage();
 
-  virtual events::Event *GetEvent(Buffer *buffer) const;
+  virtual events::Event *GetEvent(Buffer *buffer,
+                                   game_map::entities::Entity *origin) const;
   virtual void CleanEvent(events::Event *event) const;
 };
 
