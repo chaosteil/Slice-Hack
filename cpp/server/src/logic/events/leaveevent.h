@@ -8,7 +8,7 @@ namespace events {
 
 class LeaveEvent : public Event {
  public:
-  LeaveEvent();
+  LeaveEvent(game_map::entities::Entity *origin);
   virtual ~LeaveEvent();
 
   virtual void Accept(EventVisitorInterface *event_visitor);

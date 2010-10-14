@@ -8,7 +8,7 @@ namespace events {
 
 class ItemUseEvent : public Event {
  public:
-  ItemUseEvent();
+  ItemUseEvent(game_map::entities::Entity *origin);
   virtual ~ItemUseEvent();
 
   virtual void Accept(EventVisitorInterface *event_visitor);

@@ -8,7 +8,7 @@ namespace events {
 
 class EnterEvent : public Event {
  public:
-  EnterEvent();
+  EnterEvent(game_map::entities::Entity *origin);
   virtual ~EnterEvent();
 
   virtual void Accept(EventVisitorInterface *event_visitor);

@@ -8,7 +8,7 @@ namespace events {
 
 class ChatEvent : public Event {
  public:
-  ChatEvent();
+  ChatEvent(game_map::entities::Entity *origin);
   virtual ~ChatEvent();
 
   virtual void Accept(EventVisitorInterface *event_visitor);

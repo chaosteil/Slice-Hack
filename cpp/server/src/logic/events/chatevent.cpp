@@ -6,7 +6,8 @@
 namespace slice_hack {
 namespace events {
 
-ChatEvent::ChatEvent() : Event(true, NULL) {}
+ChatEvent::ChatEvent(game_map::entities::Entity *origin)
+    : Event(true, origin) {}
 
 ChatEvent::~ChatEvent() {}
 

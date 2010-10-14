@@ -8,7 +8,7 @@ namespace events {
 
 class AttackEvent : public Event {
  public:
-  AttackEvent();
+  AttackEvent(game_map::entities::Entity *origin);
   virtual ~AttackEvent();
 
   virtual void Accept(EventVisitorInterface *event_visitor);

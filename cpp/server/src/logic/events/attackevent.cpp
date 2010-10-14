@@ -6,7 +6,8 @@
 namespace slice_hack {
 namespace events {
 
-AttackEvent::AttackEvent() : Event(false, NULL) {}
+AttackEvent::AttackEvent(game_map::entities::Entity *origin)
+    : Event(false, origin) {}
 
 AttackEvent::~AttackEvent() {}
 

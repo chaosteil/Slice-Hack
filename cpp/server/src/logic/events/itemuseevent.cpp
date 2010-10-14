@@ -6,9 +6,10 @@
 namespace slice_hack {
 namespace events {
 
-ItemUseEvent::~ItemUseEvent() {}
+ItemUseEvent::ItemUseEvent(game_map::entities::Entity *origin)
+    : Event(false, origin) {}
 
-ItemUseEvent::ItemUseEvent() : Event(false, NULL) {}
+ItemUseEvent::~ItemUseEvent() {}
 
 void ItemUseEvent::Accept(EventVisitorInterface *event_visitor) {
   event_visitor->Visit(this);

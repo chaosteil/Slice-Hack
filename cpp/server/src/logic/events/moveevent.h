@@ -8,7 +8,7 @@ namespace events {
 
 class MoveEvent : public Event {
  public:
-  MoveEvent();
+  MoveEvent(game_map::entities::Entity *origin);
   virtual ~MoveEvent();
 
   virtual void Accept(EventVisitorInterface *event_visitor);
