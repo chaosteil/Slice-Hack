@@ -12,7 +12,7 @@ class SendMessage {
  public:
   virtual ~SendMessage();
 
-  const char *buffer() const;
+  const char *buffer(int *length) const;
 
  protected:
   SendMessage(int id);

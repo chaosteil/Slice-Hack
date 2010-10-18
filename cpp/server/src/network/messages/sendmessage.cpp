@@ -7,7 +7,11 @@ namespace messages {
 
 SendMessage::~SendMessage() {}
 
-const char *SendMessage::buffer() const {
+const char *SendMessage::buffer(int *length) const {
+  if (length != NULL) {
+    *length = buffer_.size();
+  }
+
   return buffer_.c_str();
 }
 

@@ -5,7 +5,7 @@ namespace slice_hack {
 namespace network {
 
 namespace messages {
-class SendMessageInterface;
+class SendMessage;
 }  // namespace messages
 
 class Client {
@@ -14,7 +14,7 @@ class Client {
   virtual ~Client();
 
   int fd() const;
-  void SendMessage(const messages::SendMessageInterface &send_message);
+  bool SendMessage(const messages::SendMessage &send_message);
 
   void AddBuffer(const char *buf, int length);
   const char *GetBuffer(int *length) const;

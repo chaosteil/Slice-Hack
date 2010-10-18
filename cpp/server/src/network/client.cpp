@@ -1,6 +1,8 @@
 #include "network/client.h"
+#include "network/messages/sendmessage.h"
 
 #include <cstring>
+#include <sys/socket.h>
 
 namespace slice_hack {
 namespace network {
@@ -17,7 +19,24 @@ int Client::fd() const {
   return fd_;
 }
 
-void Client::SendMessage(const messages::SendMessageInterface &send_message) {}
+bool Client::SendMessage(const messages::SendMessage &send_message) {
+  int length = 0;
+  const char *buffer = send_message.buffer(&length);
+  int left = length;
+
+  int sent = 0;
+  while (sent < length) {
+    int bytes = send(fd_, buffer+sent, left, 0);
+    if (bytes == -1) {
+      return false;
+    }
+
+    sent += bytes;
+    left -= bytes;
+  }
+
+  return true;
+}
 
 void Client::AddBuffer(const char *buf, int length) {
   int buffer_length = buffer_length_ + length;
