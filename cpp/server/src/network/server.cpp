@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <boost/foreach.hpp>
 #include "network/client.h"
+#include "network/messages/message_out/loginmessage.h"
 
 namespace slice_hack {
 namespace network {
@@ -153,6 +154,10 @@ void Server::AcceptClient() {
   if (client_manager_) {
     client_manager_->AddClient(client);
   }
+
+  client->SendMessage(
+    messages::message_out::LoginMessage(
+      messages::message_out::LoginMessage::kOk, "derp"));
 }
 
 }  // namespace network

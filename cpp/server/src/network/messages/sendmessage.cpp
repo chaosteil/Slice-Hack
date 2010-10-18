@@ -20,10 +20,8 @@ SendMessage::SendMessage(int id) {
 }
 
 void SendMessage::AddString(const std::string &text) {
-  // We skip the \0 char
-  
-  AddInt16(text.size()-1);
-  buffer_.append(text.c_str(), text.size()-1);
+  AddInt16(text.size());
+  buffer_.append(text.c_str(), text.size());
 }
 
 void SendMessage::AddInt8(int8_t number) {
