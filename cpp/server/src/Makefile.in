@@ -67,7 +67,9 @@ am_slicehack_OBJECTS = main.$(OBJEXT) signal_handlers.$(OBJEXT) \
 	logic/game_map/entities/inventory/itemslot.$(OBJEXT) \
 	network/server.$(OBJEXT) network/client.$(OBJEXT) \
 	network/messages/messageinterpreter.$(OBJEXT) \
-	network/messages/message_in/loginmessage.$(OBJEXT)
+	network/messages/sendmessage.$(OBJEXT) \
+	network/messages/message_in/loginmessage.$(OBJEXT) \
+	network/messages/message_out/loginmessage.$(OBJEXT)
 slicehack_OBJECTS = $(am_slicehack_OBJECTS)
 am__DEPENDENCIES_1 =
 slicehack_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -208,8 +210,10 @@ slicehack_SOURCES = \
 	network/server.cpp \
 	network/client.cpp \
 	network/messages/messageinterpreter.cpp \
+	network/messages/sendmessage.cpp \
 	\
-	network/messages/message_in/loginmessage.cpp
+	network/messages/message_in/loginmessage.cpp \
+	network/messages/message_out/loginmessage.cpp
 
 all: all-am
 
@@ -380,6 +384,9 @@ network/messages/$(DEPDIR)/$(am__dirstamp):
 network/messages/messageinterpreter.$(OBJEXT):  \
 	network/messages/$(am__dirstamp) \
 	network/messages/$(DEPDIR)/$(am__dirstamp)
+network/messages/sendmessage.$(OBJEXT):  \
+	network/messages/$(am__dirstamp) \
+	network/messages/$(DEPDIR)/$(am__dirstamp)
 network/messages/message_in/$(am__dirstamp):
 	@$(MKDIR_P) network/messages/message_in
 	@: > network/messages/message_in/$(am__dirstamp)
@@ -389,6 +396,15 @@ network/messages/message_in/$(DEPDIR)/$(am__dirstamp):
 network/messages/message_in/loginmessage.$(OBJEXT):  \
 	network/messages/message_in/$(am__dirstamp) \
 	network/messages/message_in/$(DEPDIR)/$(am__dirstamp)
+network/messages/message_out/$(am__dirstamp):
+	@$(MKDIR_P) network/messages/message_out
+	@: > network/messages/message_out/$(am__dirstamp)
+network/messages/message_out/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) network/messages/message_out/$(DEPDIR)
+	@: > network/messages/message_out/$(DEPDIR)/$(am__dirstamp)
+network/messages/message_out/loginmessage.$(OBJEXT):  \
+	network/messages/message_out/$(am__dirstamp) \
+	network/messages/message_out/$(DEPDIR)/$(am__dirstamp)
 slicehack$(EXEEXT): $(slicehack_OBJECTS) $(slicehack_DEPENDENCIES) 
 	@rm -f slicehack$(EXEEXT)
 	$(CXXLINK) $(slicehack_OBJECTS) $(slicehack_LDADD) $(LIBS)
@@ -417,7 +433,9 @@ mostlyclean-compile:
 	-rm -f logic/playermanager.$(OBJEXT)
 	-rm -f network/client.$(OBJEXT)
 	-rm -f network/messages/message_in/loginmessage.$(OBJEXT)
+	-rm -f network/messages/message_out/loginmessage.$(OBJEXT)
 	-rm -f network/messages/messageinterpreter.$(OBJEXT)
+	-rm -f network/messages/sendmessage.$(OBJEXT)
 	-rm -f network/server.$(OBJEXT)
 
 distclean-compile:
@@ -448,7 +466,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@network/$(DEPDIR)/client.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@network/$(DEPDIR)/server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@network/messages/$(DEPDIR)/messageinterpreter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@network/messages/$(DEPDIR)/sendmessage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@network/messages/message_in/$(DEPDIR)/loginmessage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@network/messages/message_out/$(DEPDIR)/loginmessage.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -592,6 +612,8 @@ distclean-generic:
 	-rm -f network/messages/$(am__dirstamp)
 	-rm -f network/messages/message_in/$(DEPDIR)/$(am__dirstamp)
 	-rm -f network/messages/message_in/$(am__dirstamp)
+	-rm -f network/messages/message_out/$(DEPDIR)/$(am__dirstamp)
+	-rm -f network/messages/message_out/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -601,7 +623,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR) network/$(DEPDIR) network/messages/$(DEPDIR) network/messages/message_in/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR) network/$(DEPDIR) network/messages/$(DEPDIR) network/messages/message_in/$(DEPDIR) network/messages/message_out/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -647,7 +669,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR) network/$(DEPDIR) network/messages/$(DEPDIR) network/messages/message_in/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) logic/$(DEPDIR) logic/events/$(DEPDIR) logic/game_map/$(DEPDIR) logic/game_map/entities/$(DEPDIR) logic/game_map/entities/inventory/$(DEPDIR) network/$(DEPDIR) network/messages/$(DEPDIR) network/messages/message_in/$(DEPDIR) network/messages/message_out/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
